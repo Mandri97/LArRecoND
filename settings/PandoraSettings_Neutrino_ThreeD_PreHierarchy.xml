@@ -314,7 +314,7 @@
         <MvaFileNameNoChargeInfo>PandoraMVAData/PandoraBdt_PfoCharacterisation_ProtoDUNESP_v03_26_00.xml</MvaFileNameNoChargeInfo>
         <MvaNameNoChargeInfo>PfoCharacterisationNoChargeInfo</MvaNameNoChargeInfo>
         <TrainingSetMode>true</TrainingSetMode>
-        <TrainingOutputFileName>training_output</TrainingOutputFileName>
+        <TrainingOutputFileName>PreHierarchy_Training_Output</TrainingOutputFileName>
         <FeatureTools>
             <tool type = "LArThreeDLinearFitFeatureTool"/>
             <tool type = "LArThreeDVertexDistanceFeatureTool"/>
