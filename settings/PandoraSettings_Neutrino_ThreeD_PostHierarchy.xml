@@ -407,7 +407,7 @@
         <MvaFileName>PandoraMVAData/PandoraBdt_PfoCharacterisation_LArRecoND_PreHierarchy_v01_00_00.xml</MvaFileName>
         <MvaName>PfoCharacterisation</MvaName>
         <MvaFileNameNoChargeInfo>PandoraMVAData/PandoraBdt_PfoCharacterisation_LArRecoND_PreHierarchy_v01_00_00.xml</MvaFileNameNoChargeInfo>
-        <MinProbabilityCut>0.48</MinProbabilityCut>
+        <MinProbabilityCut>0.46</MinProbabilityCut>
         <MvaNameNoChargeInfo>PfoCharacterisationNoChargeInfo</MvaNameNoChargeInfo>
         <TrainingSetMode>true</TrainingSetMode>
         <TrainingOutputFileName>PostHierarchy_Training_Output</TrainingOutputFileName>
