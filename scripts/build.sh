@@ -40,6 +40,12 @@ cd $MY_TEST_AREA
 git clone https://github.com/PandoraPFA/LArContent.git
 cd LArContent
 git checkout $PANDORA_LAR_CONTENT_VERSION
+
+# add remote
+git remote add remote https://github.com/Mandri97/LArContent.git
+git fetch remote
+git checkout remote/PfoBDTTraining_Cheated -- larpandoracontent/LArTrackShowerId/PfoCharacterisationBaseAlgorithm.cc
+
 mkdir build
 cd build
 cmake -DCMAKE_MODULE_PATH="$MY_TEST_AREA/PandoraPFA/cmakemodules;$ROOTSYS/etc/cmake" \
@@ -52,7 +58,7 @@ make -j4 install
 cd $MY_TEST_AREA
 git clone https://github.com/PandoraPFA/LArRecoND.git
 cd LArRecoND
-git checkout $PANDORA_LAR_RECO_ND_VERSION
+#git checkout $PANDORA_LAR_RECO_ND_VERSION
 mkdir build
 cd build
 cmake -DCMAKE_MODULE_PATH="$MY_TEST_AREA/PandoraPFA/cmakemodules;$ROOTSYS/etc/cmake" \
