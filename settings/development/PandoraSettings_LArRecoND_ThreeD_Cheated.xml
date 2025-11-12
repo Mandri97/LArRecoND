@@ -22,9 +22,9 @@
     -->
 
     <algorithm type = "LArMasterThreeD">
-        <CRSettingsFile>PandoraSettings_LArRecoND_RockMuon_Cheat.xml</CRSettingsFile>
-        <NuSettingsFile>PandoraSettings_Neutrino_ThreeD_Cheated.xml</NuSettingsFile>
-        <SlicingSettingsFile>PandoraSettings_Slicing_ThreeD_Cheated.xml</SlicingSettingsFile>
+        <CRSettingsFile>PandoraSettings_Cosmic_Standard.xml</CRSettingsFile>
+        <NuSettingsFile>PandoraSettings_Neutrino_ThreeD_Cheated_RC.xml</NuSettingsFile>
+        <SlicingSettingsFile>PandoraSettings_Slicing_ThreeD.xml</SlicingSettingsFile>
         <StitchingTools>
             <tool type = "LArCheatingStitching" />
         </StitchingTools>
