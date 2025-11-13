@@ -56,7 +56,7 @@ make -j4 install
 
 # LArRecoND
 cd $MY_TEST_AREA
-git clone https://github.com/PandoraPFA/LArRecoND.git
+#git clone https://github.com/PandoraPFA/LArRecoND.git
 cd LArRecoND
 #git checkout $PANDORA_LAR_RECO_ND_VERSION
 mkdir build
