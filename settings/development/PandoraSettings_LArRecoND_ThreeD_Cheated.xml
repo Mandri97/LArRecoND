@@ -118,9 +118,11 @@
     </algorithm>
 -->
 
+    <!--
     <algorithm type = "LArVisualMonitoring">
         <ShowCurrentPfos>true</ShowCurrentPfos>
         <ShowDetector>true</ShowDetector>
     </algorithm>
+    -->
 
 </pandora>
