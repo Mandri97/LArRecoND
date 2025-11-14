@@ -80,6 +80,21 @@
         <CollapseToPrimaryMCParticles>false</CollapseToPrimaryMCParticles>
     </algorithm>
     
+    <!-- 3D neutrino event hierarchy -->
+    <algorithm type = "LArCheatingNeutrinoCreation">
+        <CollapseToPrimaryMCParticles>false</CollapseToPrimaryMCParticles>
+        <MCParticleListName>Input</MCParticleListName>
+        <NeutrinoPfoListName>NeutrinoParticles3D</NeutrinoPfoListName>
+        <VertexListName>NVertices</VertexListName>
+        <DaughterPfoListNames>NParticles3D</DaughterPfoListNames>
+    </algorithm>
+    <algorithm type = "LArCheatingNeutrinoDaughterVertices">
+        <CollapseToPrimaryMCParticles>false</CollapseToPrimaryMCParticles>
+        <MCParticleListName>Input</MCParticleListName>
+        <NeutrinoPfoListName>NeutrinoParticles3D</NeutrinoPfoListName>
+        <OutputVertexListName>NDaughterVertices3D</OutputVertexListName>
+    </algorithm>
+    
     <algorithm type = "LArBdtPfoCharacterisation">
         <TrackPfoListName>NParticles3D</TrackPfoListName>
         <!--<ShowerPfoListName>DummyList</ShowerPfoListName>-->
@@ -115,21 +130,6 @@
         <OutputTree>tree</OutputTree>
         <OutputFile>tree.root</OutputFile>
     </algorithm>
-    
-    <!-- 3D neutrino event hierarchy -->
-    <algorithm type = "LArCheatingNeutrinoCreation">
-        <CollapseToPrimaryMCParticles>false</CollapseToPrimaryMCParticles>
-        <MCParticleListName>Input</MCParticleListName>
-        <NeutrinoPfoListName>NeutrinoParticles3D</NeutrinoPfoListName>
-        <VertexListName>NVertices</VertexListName>
-        <DaughterPfoListNames>NParticles3D</DaughterPfoListNames>
-    </algorithm>
-    <algorithm type = "LArCheatingNeutrinoDaughterVertices">
-        <CollapseToPrimaryMCParticles>false</CollapseToPrimaryMCParticles>
-        <MCParticleListName>Input</MCParticleListName>
-        <NeutrinoPfoListName>NeutrinoParticles3D</NeutrinoPfoListName>
-        <OutputVertexListName>NDaughterVertices3D</OutputVertexListName>
-    </algorithm>
 
     <!-- <algorithm type = "LArVisualMonitoring">
         <PfoListNames>NeutrinoParticles3D NParticles3D</PfoListNames>
@@ -137,7 +137,6 @@
         <ShowDetector>true</ShowDetector>
     </algorithm> -->
 
-    
     <!-- Output list management -->
     <algorithm type = "LArPostProcessing">
         <PfoListNames>NeutrinoParticles3D NParticles3D</PfoListNames>
