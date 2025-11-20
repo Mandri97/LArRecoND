@@ -77,7 +77,7 @@
         <OutputPfoListName>NParticles3D</OutputPfoListName>
         <AddVertices>false</AddVertices>
         <MCParticleListName>Input</MCParticleListName>
-        <CollapseToPrimaryMCParticles>false</CollapseToPrimaryMCParticles>
+        <CollapseToPrimaryMCParticles>true</CollapseToPrimaryMCParticles>
     </algorithm>
     
     <!-- 3D neutrino event hierarchy -->
