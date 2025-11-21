@@ -37,15 +37,14 @@ make -j4 install
 
 # LArContent (Algorithms) without LibTorch (no DLVtx)
 cd $MY_TEST_AREA
-git clone https://github.com/Mandri97/LArContent.git
 git clone https://github.com/PandoraPFA/LArContent.git
 cd LArContent
 git checkout $PANDORA_LAR_CONTENT_VERSION
 
 # add remote
-git remote add remote https://github.com/Mandri97/LArContent.git
-git fetch remote
-git checkout remote/BDTTraining_Cheated -- larpandoracontent/LArTrackShowerId/PfoCharacterisationBaseAlgorithm.cc
+#git remote add remote https://github.com/Mandri97/LArContent.git
+#git fetch remote
+#git checkout remote/BDTTraining_Cheated -- larpandoracontent/LArTrackShowerId/PfoCharacterisationBaseAlgorithm.cc
 
 mkdir build
 cd build
