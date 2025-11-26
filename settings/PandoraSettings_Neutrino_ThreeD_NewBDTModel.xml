@@ -339,7 +339,7 @@
         <OutputFile>tree.root</OutputFile>
     </algorithm>
 
-    <!-- Recursively Repeat MopUpAlgorithms -->
+    <!-- Recursively Repeat MopUpAlgorithms
     <algorithm type = "LArRecursivePfoMopUp">
         <PfoListNames>TrackParticles3D ShowerParticles3D</PfoListNames>
         <MaxIterations>10</MaxIterations>
@@ -377,6 +377,7 @@
 
         </MopUpAlgorithms>
     </algorithm>
+    -->
 
     <!-- Neutrino creation and hierarchy building -->
     <algorithm type = "LArNeutrinoCreation">

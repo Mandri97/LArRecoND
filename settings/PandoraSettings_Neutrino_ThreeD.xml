@@ -1,6 +1,6 @@
 <pandora>
     <!-- GLOBAL SETTINGS -->
-    <IsMonitoringEnabled>false</IsMonitoringEnabled>
+    <IsMonitoringEnabled>true</IsMonitoringEnabled>
     <ShouldDisplayAlgorithmInfo>false</ShouldDisplayAlgorithmInfo>
     <SingleHitTypeClusteringMode>true</SingleHitTypeClusteringMode>
 
@@ -303,6 +303,11 @@
         <AddHitsAsIsolated>true</AddHitsAsIsolated>
     </algorithm>
     
+    <algorithm type = "LArVisualMonitoring">
+        <PfoListNames>TrackParticles3D ShowerParticles3D</PfoListNames>
+        <ShowDetector>true</ShowDetector>
+    </algorithm>
+
     <algorithm type = "LArBdtPfoCharacterisation">
         <TrackPfoListName>TrackParticles3D</TrackPfoListName>
         <ShowerPfoListName>ShowerParticles3D</ShowerPfoListName>
@@ -339,7 +344,7 @@
         <OutputFile>tree.root</OutputFile>
     </algorithm>
 
-    <!-- Recursively Repeat MopUpAlgorithms -->
+    <!-- Recursively Repeat MopUpAlgorithms
     <algorithm type = "LArRecursivePfoMopUp">
         <PfoListNames>TrackParticles3D ShowerParticles3D</PfoListNames>
         <MaxIterations>10</MaxIterations>
@@ -377,6 +382,7 @@
 
         </MopUpAlgorithms>
     </algorithm>
+    -->
 
     <!-- Neutrino creation and hierarchy building -->
     <algorithm type = "LArNeutrinoCreation">
@@ -397,6 +403,8 @@
         <NeutrinoPfoListName>NeutrinoParticles3D</NeutrinoPfoListName>
         <OutputVertexListName>DaughterVertices3D</OutputVertexListName>
     </algorithm>
+    
+    
 
     <algorithm type = "LArBdtPfoCharacterisation">
         <TrackPfoListName>TrackParticles3D</TrackPfoListName>
