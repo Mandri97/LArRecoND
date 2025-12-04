@@ -288,7 +288,7 @@
         <OutputClusterListNames>TrackClusters3D ShowerClusters3D</OutputClusterListNames>
     </algorithm>
 
-    <!-- ThreeDMopUpAlgorithms -->
+    <!-- ThreeDMopUpAlgorithms
     <algorithm type = "LArSlidingConePfoMopUp">
         <InputPfoListNames>TrackParticles3D ShowerParticles3D</InputPfoListNames>
         <DaughterListNames>ClustersU ClustersV ClustersW TrackClusters3D ShowerClusters3D</DaughterListNames>
@@ -302,6 +302,7 @@
         <DaughterListNames>ClustersU ClustersV ClustersW</DaughterListNames>
         <AddHitsAsIsolated>true</AddHitsAsIsolated>
     </algorithm>
+    -->
     
     <algorithm type = "LArBdtPfoCharacterisation">
         <TrackPfoListName>TrackParticles3D</TrackPfoListName>
@@ -339,7 +340,7 @@
         <OutputFile>tree.root</OutputFile>
     </algorithm>
 
-    <!-- Recursively Repeat MopUpAlgorithms -->
+    <!-- Recursively Repeat MopUpAlgorithms
     <algorithm type = "LArRecursivePfoMopUp">
         <PfoListNames>TrackParticles3D ShowerParticles3D</PfoListNames>
         <MaxIterations>10</MaxIterations>
@@ -377,6 +378,7 @@
 
         </MopUpAlgorithms>
     </algorithm>
+    -->
 
     <!-- Neutrino creation and hierarchy building -->
     <algorithm type = "LArNeutrinoCreation">
