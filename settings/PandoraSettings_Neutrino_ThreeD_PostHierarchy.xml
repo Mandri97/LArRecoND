@@ -310,9 +310,9 @@
         <MCParticleListName>Input</MCParticleListName>
         <CaloHitListName>CaloHitList2D</CaloHitListName>
         <UseThreeDInformation>true</UseThreeDInformation>
-        <MvaFileName>PandoraMVAData/PandoraBdt_PfoCharacterisation_LArRecoND_PreHierarchy_v01_00_00.xml</MvaFileName>
+        <MvaFileName>PandoraMVAData/PandoraBdt_PfoCharacterisation_LArRecoND_PreHierarchy_v01_00_01.xml</MvaFileName>
         <MvaName>PfoCharacterisation</MvaName>
-        <MvaFileNameNoChargeInfo>PandoraMVAData/PandoraBdt_PfoCharacterisation_LArRecoND_PreHierarchy_v01_00_00.xml</MvaFileNameNoChargeInfo>
+        <MvaFileNameNoChargeInfo>PandoraMVAData/PandoraBdt_PfoCharacterisation_LArRecoND_PreHierarchy_v01_00_01.xml</MvaFileNameNoChargeInfo>
         <MvaNameNoChargeInfo>PfoCharacterisationNoChargeInfo</MvaNameNoChargeInfo>
         <TrainingSetMode>false</TrainingSetMode>
         <TrainingOutputFileName>training_output</TrainingOutputFileName>
@@ -406,10 +406,9 @@
         <MCParticleListName>Input</MCParticleListName>
         <CaloHitListName>CaloHitList2D</CaloHitListName>
         <UseThreeDInformation>true</UseThreeDInformation>
-        <MvaFileName>PandoraMVAData/PandoraBdt_PfoCharacterisation_LArRecoND_PreHierarchy_v01_00_00.xml</MvaFileName>
+        <MvaFileName>PandoraMVAData/PandoraBdt_PfoCharacterisation_ProtoDUNESP_v03_26_00.xml</MvaFileName>
         <MvaName>PfoCharacterisation</MvaName>
-        <MvaFileNameNoChargeInfo>PandoraMVAData/PandoraBdt_PfoCharacterisation_LArRecoND_PreHierarchy_NoChargeInfo_v01_00_00.xml</MvaFileNameNoChargeInfo>
-	<!--<MinProbabilityCut>0.46</MinProbabilityCut>-->
+        <MvaFileNameNoChargeInfo>PandoraMVAData/PandoraBdt_PfoCharacterisation_ProtoDUNESP_v03_26_00.xml</MvaFileNameNoChargeInfo>	<!--<MinProbabilityCut>0.46</MinProbabilityCut>-->
         <MvaNameNoChargeInfo>PfoCharacterisationNoChargeInfo</MvaNameNoChargeInfo>
         <TrainingSetMode>true</TrainingSetMode>
         <TrainingOutputFileName>PostHierarchy_Training_Output</TrainingOutputFileName>
