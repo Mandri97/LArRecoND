@@ -311,9 +311,9 @@
         <CaloHitListName>CaloHitList2D</CaloHitListName>
         <UseThreeDInformation>true</UseThreeDInformation>
         <MvaFileName>PandoraMVAData/PandoraBdt_PfoCharacterisation_LArRecoND_PreHierarchy_v01_00_01.xml</MvaFileName>
-        <MvaName>PfoCharacterisation</MvaName>
+        <MvaName>PreHierarchy</MvaName>
         <MvaFileNameNoChargeInfo>PandoraMVAData/PandoraBdt_PfoCharacterisation_LArRecoND_PreHierarchy_v01_00_01.xml</MvaFileNameNoChargeInfo>
-        <MvaNameNoChargeInfo>PfoCharacterisationNoChargeInfo</MvaNameNoChargeInfo>
+        <MvaNameNoChargeInfo>PreHierarchy_NoChargeInfo</MvaNameNoChargeInfo>
         <TrainingSetMode>false</TrainingSetMode>
         <TrainingOutputFileName>training_output</TrainingOutputFileName>
         <FeatureTools>
