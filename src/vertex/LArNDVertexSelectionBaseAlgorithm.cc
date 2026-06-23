@@ -248,7 +248,7 @@ bool ND_VertexSelectionBaseAlgorithm::IsVertexInGap(const Vertex *const pVertex,
     // TODO: Cast this into the void
     (void) hitType;
 
-    return LArGeometryHelper::IsInGap3D(this->GetPandora(), pVertex->GetPosition(), TPC_3D, m_gapTolerance);
+    return LArGeometryHelper::IsInGap(this->GetPandora(), pVertex->GetPosition(), TPC_3D, m_gapTolerance);
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
