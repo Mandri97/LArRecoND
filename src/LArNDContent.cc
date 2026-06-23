@@ -17,6 +17,14 @@
 #include "CheatingRockMuonTaggingTool.h"
 #include "CheatingStitchingTool.h"
 
+#include "vertex/LArNDEnergyDepositionAsymmetryFeatureTool.h"
+#include "vertex/LArNDEnergyKickFeatureTool.h"
+#include "vertex/LArNDGlobalAsymmetryFeatureTool.h"
+#include "vertex/LArNDLocalAsymmetryFeatureTool.h"
+#include "vertex/LArNDRPhiFeatureTool.h"
+#include "vertex/LArNDShowerAsymmetryFeatureTool.h"
+#include "vertex/LArNDMvaVertexSelectionAlgorithm.h"
+
 #include "CandidateVertexCreationThreeDAlgorithm.h"
 #include "CreateTwoDClustersFromThreeDAlgorithm.h"
 #include "CutClusterCharacterisationThreeDAlgorithm.h"
@@ -44,13 +52,20 @@
     d("LArCutClusterCharacterisationThreeD",    CutClusterCharacterisationThreeDAlgorithm)                                         \
     d("LArCandidateVertexCreationThreeD",       CandidateVertexCreationThreeDAlgorithm)                                            \
     d("LArHierarchyAnalysis",                   HierarchyAnalysisAlgorithm)                                                        \
-    d("LArCheatingRockMuonRemoval",             CheatingRockMuonRemovalAlgorithm)
+    d("LArCheatingRockMuonRemoval",             CheatingRockMuonRemovalAlgorithm)                                                  \
+    d("LArBdtNDVertexSelection",                NDBdtVertexSelectionAlgorithm)
 
 #define LAR_ND_ALGORITHM_TOOL_LIST(d)                                                                                              \
     d("LArEventSlicingThreeD",                  EventSlicingThreeDTool)                                                            \
     d("LArCheatingEventSlicingThreeD",          CheatingEventSlicingThreeDTool)                                                    \
     d("LArCheatingStitching",                   CheatingStitchingTool)                                                             \
-    d("LArCheatingRockMuonTagging",             CheatingRockMuonTaggingTool)
+    d("LArCheatingRockMuonTagging",             CheatingRockMuonTaggingTool)                                                       \
+    d("LArNDEnergyKickFeature",                 ND_EnergyKickFeatureTool)                                                          \
+    d("LArNDEnergyDepositionAsymmetryFeature",  ND_EnergyDepositionAsymmetryFeatureTool)                                           \
+    d("LArNDGlobalAsymmetryFeature",            ND_GlobalAsymmetryFeatureTool)                                                     \
+    d("LArNDLocalAsymmetryFeature",             ND_LocalAsymmetryFeatureTool)                                                      \
+    d("LArNDRPhiFeature",                       ND_RPhiFeatureTool)                                                                \
+    d("LArNDShowerAsymmetryFeature",            ND_ShowerAsymmetryFeatureTool)
 
 #define FACTORY Factory
 
