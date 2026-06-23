@@ -245,7 +245,10 @@ bool VertexSelectionBaseAlgorithm::IsVertexInGap(const Vertex *const pVertex, co
     if (!m_useDetectorGaps)
         return false;
 
-    return LArGeometryHelper::IsInGap3D(this->GetPandora(), pVertex->GetPosition(), hitType, m_gapTolerance);
+    // Caste this into the void
+    (void) hitType;
+
+    return LArGeometryHelper::IsInGap3D(this->GetPandora(), pVertex->GetPosition(), TPC_3D, m_gapTolerance);
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
