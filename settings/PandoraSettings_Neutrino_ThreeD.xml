@@ -92,7 +92,7 @@
     <algorithm type = "LArListDeletion" description = "3DClusterDeletion">
         <ClusterListNames>Clusters3D</ClusterListNames>
     </algorithm>
-    <algorithm type = "LArBdtVertexSelection">
+    <algorithm type = "LArBdtNDVertexSelection">
         <InputCaloHitListNames>CaloHitListU CaloHitListV CaloHitListW</InputCaloHitListNames>
         <InputClusterListNames>ClustersU ClustersV ClustersW</InputClusterListNames>
         <OutputVertexListName>NeutrinoVertices3D</OutputVertexListName>
@@ -101,12 +101,12 @@
         <RegionMvaName>DUNEFD_VertexSelectionRegion</RegionMvaName>
         <VertexMvaName>DUNEFD_VertexSelectionVertex</VertexMvaName>
         <FeatureTools>
-            <tool type = "LArEnergyKickFeature"/>
-            <tool type = "LArLocalAsymmetryFeature"/>
-            <tool type = "LArGlobalAsymmetryFeature"/>
-            <tool type = "LArShowerAsymmetryFeature"/>
-            <tool type = "LArRPhiFeature"/>
-            <tool type = "LArEnergyDepositionAsymmetryFeature"/>
+            <tool type = "LArNDEnergyKickFeature"/>
+            <tool type = "LArNDLocalAsymmetryFeature"/>
+            <tool type = "LArNDGlobalAsymmetryFeature"/>
+            <tool type = "LArNDShowerAsymmetryFeature"/>
+            <tool type = "LArNDRPhiFeature"/>
+            <tool type = "LArNDEnergyDepositionAsymmetryFeature"/>
         </FeatureTools>
         <LegacyEventShapes>false</LegacyEventShapes>
         <LegacyVariables>false</LegacyVariables>
