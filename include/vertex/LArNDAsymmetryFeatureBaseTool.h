@@ -5,10 +5,10 @@
  *
  *  $Log: $
  */
-#ifndef LAR_ASYMMETRY_FEATURE_BASE_TOOL_H
-#define LAR_ASYMMETRY_FEATURE_BASE_TOOL_H 1
+#ifndef LAR_ND_ASYMMETRY_FEATURE_BASE_TOOL_H
+#define LAR_ND_ASYMMETRY_FEATURE_BASE_TOOL_H 1
 
-#include "larpandoracontent/LArVertex/VertexSelectionBaseAlgorithm.h"
+#include "vertex/LArNDVertexSelectionBaseAlgorithm.h"
 
 namespace lar_content
 {
@@ -16,13 +16,13 @@ namespace lar_content
 /**
  *  @brief  AsymmetryFeatureBaseTool class
  */
-class AsymmetryFeatureBaseTool : public VertexSelectionBaseAlgorithm::VertexFeatureTool
+class ND_AsymmetryFeatureBaseTool : public ND_VertexSelectionBaseAlgorithm::VertexFeatureTool
 {
 public:
     /**
      *  @brief  Default constructor
      */
-    AsymmetryFeatureBaseTool();
+    ND_AsymmetryFeatureBaseTool();
 
     /**
      *  @brief  Run the tool
@@ -34,10 +34,10 @@ public:
      *
      *  @return the asymmetry feature
      */
-    void Run(LArMvaHelper::MvaFeatureVector &featureVector, const VertexSelectionBaseAlgorithm *const pAlgorithm,
-        const pandora::Vertex *const pVertex, const VertexSelectionBaseAlgorithm::SlidingFitDataListMap &slidingFitDataListMap,
-        const VertexSelectionBaseAlgorithm::ClusterListMap &, const VertexSelectionBaseAlgorithm::KDTreeMap &,
-        const VertexSelectionBaseAlgorithm::ShowerClusterListMap &showerClusterListMap, const float, float &);
+    void Run(LArMvaHelper::MvaFeatureVector &featureVector, const ND_VertexSelectionBaseAlgorithm *const pAlgorithm,
+        const pandora::Vertex *const pVertex, const ND_VertexSelectionBaseAlgorithm::SlidingFitDataListMap &slidingFitDataListMap,
+        const ND_VertexSelectionBaseAlgorithm::ClusterListMap &, const ND_VertexSelectionBaseAlgorithm::KDTreeMap &,
+        const ND_VertexSelectionBaseAlgorithm::ShowerClusterListMap &showerClusterListMap, const float, float &);
 
 protected:
     pandora::StatusCode ReadSettings(const pandora::TiXmlHandle xmlHandle);
@@ -52,8 +52,8 @@ protected:
      *  @return the asymmetry feature
      */
     virtual float GetAsymmetryForView(const pandora::CartesianVector &vertexPosition2D,
-        const VertexSelectionBaseAlgorithm::SlidingFitDataList &slidingFitDataList,
-        const VertexSelectionBaseAlgorithm::ShowerClusterList &showerClusterList) const = 0;
+        const ND_VertexSelectionBaseAlgorithm::SlidingFitDataList &slidingFitDataList,
+        const ND_VertexSelectionBaseAlgorithm::ShowerClusterList &showerClusterList) const = 0;
 
     /**
      *  @brief  Increment the asymmetry parameters

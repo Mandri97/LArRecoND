@@ -5,10 +5,10 @@
  *
  *  $Log: $
  */
-#ifndef LAR_ENERGY_KICK_FEATURE_TOOL_H
-#define LAR_ENERGY_KICK_FEATURE_TOOL_H 1
+#ifndef LAR_ND_ENERGY_KICK_FEATURE_TOOL_H
+#define LAR_ND_ENERGY_KICK_FEATURE_TOOL_H 1
 
-#include "larpandoracontent/LArVertex/VertexSelectionBaseAlgorithm.h"
+#include "vertex/LArNDVertexSelectionBaseAlgorithm.h"
 
 namespace lar_content
 {
@@ -16,13 +16,13 @@ namespace lar_content
 /**
  *  @brief  EnergyKickFeatureTool class
  */
-class EnergyKickFeatureTool : public VertexSelectionBaseAlgorithm::VertexFeatureTool
+class ND_EnergyKickFeatureTool : public ND_VertexSelectionBaseAlgorithm::VertexFeatureTool
 {
 public:
     /**
      *  @brief  Default constructor
      */
-    EnergyKickFeatureTool();
+    ND_EnergyKickFeatureTool();
 
     /**
      *  @brief  Run the tool
@@ -33,9 +33,9 @@ public:
      *
      *  @return the energy kick feature
      */
-    void Run(LArMvaHelper::MvaFeatureVector &featureVector, const VertexSelectionBaseAlgorithm *const pAlgorithm, const pandora::Vertex *const pVertex,
-        const VertexSelectionBaseAlgorithm::SlidingFitDataListMap &slidingFitDataListMap, const VertexSelectionBaseAlgorithm::ClusterListMap &,
-        const VertexSelectionBaseAlgorithm::KDTreeMap &, const VertexSelectionBaseAlgorithm::ShowerClusterListMap &, const float, float &);
+    void Run(LArMvaHelper::MvaFeatureVector &featureVector, const ND_VertexSelectionBaseAlgorithm *const pAlgorithm, const pandora::Vertex *const pVertex,
+        const ND_VertexSelectionBaseAlgorithm::SlidingFitDataListMap &slidingFitDataListMap, const ND_VertexSelectionBaseAlgorithm::ClusterListMap &,
+        const ND_VertexSelectionBaseAlgorithm::KDTreeMap &, const ND_VertexSelectionBaseAlgorithm::ShowerClusterListMap &, const float, float &);
 
 private:
     pandora::StatusCode ReadSettings(const pandora::TiXmlHandle xmlHandle);
@@ -49,7 +49,7 @@ private:
      *  @return the energy kick feature
      */
     float GetEnergyKickForView(
-        const pandora::CartesianVector &vertexPosition2D, const VertexSelectionBaseAlgorithm::SlidingFitDataList &slidingFitDataList) const;
+        const pandora::CartesianVector &vertexPosition2D, const ND_VertexSelectionBaseAlgorithm::SlidingFitDataList &slidingFitDataList) const;
 
     /**
      *  @brief  Increment the energy kick parameters for a given cluster

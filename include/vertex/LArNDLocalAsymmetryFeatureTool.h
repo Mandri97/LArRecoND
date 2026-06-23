@@ -5,10 +5,10 @@
  *
  *  $Log: $
  */
-#ifndef LAR_LOCAL_ASYMMETRY_FEATURE_TOOL_H
-#define LAR_LOCAL_ASYMMETRY_FEATURE_TOOL_H 1
+#ifndef LAR_ND_LOCAL_ASYMMETRY_FEATURE_TOOL_H
+#define LAR_ND_LOCAL_ASYMMETRY_FEATURE_TOOL_H 1
 
-#include "larpandoracontent/LArVertex/AsymmetryFeatureBaseTool.h"
+#include "vertex/LArNDAsymmetryFeatureBaseTool.h"
 
 namespace lar_content
 {
@@ -16,13 +16,13 @@ namespace lar_content
 /**
  *  @brief  LocalAsymmetryFeatureTool class
  */
-class LocalAsymmetryFeatureTool : public AsymmetryFeatureBaseTool
+class ND_LocalAsymmetryFeatureTool : public ND_AsymmetryFeatureBaseTool
 {
 public:
     /**
      *  @brief  Default constructor
      */
-    LocalAsymmetryFeatureTool();
+    ND_LocalAsymmetryFeatureTool();
 
 private:
     pandora::StatusCode ReadSettings(const pandora::TiXmlHandle xmlHandle) override;
@@ -35,8 +35,8 @@ private:
      *
      *  @return the local asymmetry feature
      */
-    float GetAsymmetryForView(const pandora::CartesianVector &vertexPosition2D, const VertexSelectionBaseAlgorithm::SlidingFitDataList &slidingFitDataList,
-        const VertexSelectionBaseAlgorithm::ShowerClusterList &) const override;
+    float GetAsymmetryForView(const pandora::CartesianVector &vertexPosition2D, const ND_VertexSelectionBaseAlgorithm::SlidingFitDataList &slidingFitDataList,
+        const ND_VertexSelectionBaseAlgorithm::ShowerClusterList &) const override;
 
     /**
      *  @brief  Check whether a cluster's direction agrees with the current weighted direction

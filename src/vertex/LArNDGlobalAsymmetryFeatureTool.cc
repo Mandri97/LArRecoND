@@ -1,12 +1,12 @@
 /**
- *  @file   larpandoracontent/LArVertex/GlobalAsymmetryFeatureTool.cc
+ *  @file   larpandoracontent/LArVertex/ND_GlobalAsymmetryFeatureTool.cc
  *
  *  @brief  Implementation of the global asymmetry feature tool class.
  *
  *  $Log: $
  */
 
-#include "larpandoracontent/LArVertex/GlobalAsymmetryFeatureTool.h"
+#include "vertex/LArNDGlobalAsymmetryFeatureTool.h"
 #include "Pandora/AlgorithmHeaders.h"
 #include "larpandoracontent/LArHelpers/LArClusterHelper.h"
 #include "larpandoracontent/LArHelpers/LArGeometryHelper.h"
@@ -16,21 +16,21 @@ using namespace pandora;
 namespace lar_content
 {
 
-GlobalAsymmetryFeatureTool::GlobalAsymmetryFeatureTool() :
-    AsymmetryFeatureBaseTool()
+ND_GlobalAsymmetryFeatureTool::ND_GlobalAsymmetryFeatureTool() :
+    ND_AsymmetryFeatureBaseTool()
 {
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-float GlobalAsymmetryFeatureTool::GetAsymmetryForView(const CartesianVector &vertexPosition2D,
-    const VertexSelectionBaseAlgorithm::SlidingFitDataList &slidingFitDataList, const VertexSelectionBaseAlgorithm::ShowerClusterList &) const
+float ND_GlobalAsymmetryFeatureTool::GetAsymmetryForView(const CartesianVector &vertexPosition2D,
+    const ND_VertexSelectionBaseAlgorithm::SlidingFitDataList &slidingFitDataList, const ND_VertexSelectionBaseAlgorithm::ShowerClusterList &) const
 {
     bool useEnergy(true);
     CartesianVector energyWeightedDirectionSum(0.f, 0.f, 0.f), hitWeightedDirectionSum(0.f, 0.f, 0.f);
     ClusterVector asymmetryClusters;
 
-    for (const VertexSelectionBaseAlgorithm::SlidingFitData &slidingFitData : slidingFitDataList)
+    for (const ND_VertexSelectionBaseAlgorithm::SlidingFitData &slidingFitData : slidingFitDataList)
     {
         const Cluster *const pCluster(slidingFitData.GetCluster());
 
@@ -60,9 +60,9 @@ float GlobalAsymmetryFeatureTool::GetAsymmetryForView(const CartesianVector &ver
     return this->CalculateAsymmetry(useEnergy, vertexPosition2D, asymmetryClusters, localWeightedDirectionSum);
 }
 
-StatusCode GlobalAsymmetryFeatureTool::ReadSettings(const TiXmlHandle xmlHandle)
+StatusCode ND_GlobalAsymmetryFeatureTool::ReadSettings(const TiXmlHandle xmlHandle)
 {
-    return AsymmetryFeatureBaseTool::ReadSettings(xmlHandle);
+    return ND_AsymmetryFeatureBaseTool::ReadSettings(xmlHandle);
 }
 
 } // namespace lar_content

@@ -1,5 +1,5 @@
 /**
- *  @file   larpandoracontent/LArVertex/EnergyKickFeatureTool.cc
+ *  @file   larpandoracontent/LArVertex/ND_EnergyKickFeatureTool.cc
  *
  *  @brief  Implementation of the energy kick feature tool class.
  *
@@ -10,14 +10,14 @@
 
 #include "larpandoracontent/LArHelpers/LArGeometryHelper.h"
 
-#include "larpandoracontent/LArVertex/EnergyKickFeatureTool.h"
+#include "vertex/LArNDEnergyKickFeatureTool.h"
 
 using namespace pandora;
 
 namespace lar_content
 {
 
-EnergyKickFeatureTool::EnergyKickFeatureTool() :
+ND_EnergyKickFeatureTool::ND_EnergyKickFeatureTool() :
     m_rOffset(10.f),
     m_xOffset(0.06f)
 {
@@ -25,10 +25,10 @@ EnergyKickFeatureTool::EnergyKickFeatureTool() :
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-void EnergyKickFeatureTool::Run(LArMvaHelper::MvaFeatureVector &featureVector, const VertexSelectionBaseAlgorithm *const pAlgorithm,
-    const Vertex *const pVertex, const VertexSelectionBaseAlgorithm::SlidingFitDataListMap &slidingFitDataListMap,
-    const VertexSelectionBaseAlgorithm::ClusterListMap &, const VertexSelectionBaseAlgorithm::KDTreeMap &,
-    const VertexSelectionBaseAlgorithm::ShowerClusterListMap &, const float, float &)
+void ND_EnergyKickFeatureTool::Run(LArMvaHelper::MvaFeatureVector &featureVector, const ND_VertexSelectionBaseAlgorithm *const pAlgorithm,
+    const Vertex *const pVertex, const ND_VertexSelectionBaseAlgorithm::SlidingFitDataListMap &slidingFitDataListMap,
+    const ND_VertexSelectionBaseAlgorithm::ClusterListMap &, const ND_VertexSelectionBaseAlgorithm::KDTreeMap &,
+    const ND_VertexSelectionBaseAlgorithm::ShowerClusterListMap &, const float, float &)
 {
     if (PandoraContentApi::GetSettings(*pAlgorithm)->ShouldDisplayAlgorithmInfo())
         std::cout << "----> Running Algorithm Tool: " << this->GetInstanceName() << ", " << this->GetType() << std::endl;
@@ -49,14 +49,14 @@ void EnergyKickFeatureTool::Run(LArMvaHelper::MvaFeatureVector &featureVector, c
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-float EnergyKickFeatureTool::GetEnergyKickForView(
-    const CartesianVector &vertexPosition2D, const VertexSelectionBaseAlgorithm::SlidingFitDataList &slidingFitDataList) const
+float ND_EnergyKickFeatureTool::GetEnergyKickForView(
+    const CartesianVector &vertexPosition2D, const ND_VertexSelectionBaseAlgorithm::SlidingFitDataList &slidingFitDataList) const
 {
     unsigned int totHits(0);
     bool useEnergy(true);
     float totEnergy(0.f), totEnergyKick(0.f), totHitKick(0.f);
 
-    for (const VertexSelectionBaseAlgorithm::SlidingFitData &slidingFitData : slidingFitDataList)
+    for (const ND_VertexSelectionBaseAlgorithm::SlidingFitData &slidingFitData : slidingFitDataList)
     {
         const Cluster *const pCluster(slidingFitData.GetCluster());
 
@@ -85,7 +85,7 @@ float EnergyKickFeatureTool::GetEnergyKickForView(
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-void EnergyKickFeatureTool::IncrementEnergyKickParameters(const Cluster *const pCluster, const CartesianVector &clusterDisplacement,
+void ND_EnergyKickFeatureTool::IncrementEnergyKickParameters(const Cluster *const pCluster, const CartesianVector &clusterDisplacement,
     const CartesianVector &clusterDirection, float &totEnergyKick, float &totEnergy, float &totHitKick, unsigned int &totHits) const
 {
     const float impactParameter(clusterDisplacement.GetCrossProduct(clusterDirection).GetMagnitude());
@@ -100,7 +100,7 @@ void EnergyKickFeatureTool::IncrementEnergyKickParameters(const Cluster *const p
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-StatusCode EnergyKickFeatureTool::ReadSettings(const TiXmlHandle xmlHandle)
+StatusCode ND_EnergyKickFeatureTool::ReadSettings(const TiXmlHandle xmlHandle)
 {
     PANDORA_RETURN_RESULT_IF_AND_IF(STATUS_CODE_SUCCESS, STATUS_CODE_NOT_FOUND, !=, XmlHelper::ReadValue(xmlHandle, "ROffset", m_rOffset));
 

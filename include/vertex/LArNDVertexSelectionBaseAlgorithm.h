@@ -5,8 +5,8 @@
  *
  *  $Log: $
  */
-#ifndef LAR_VERTEX_SELECTION_BASE_ALGORITHM_H
-#define LAR_VERTEX_SELECTION_BASE_ALGORITHM_H 1
+#ifndef LAR_ND_VERTEX_SELECTION_BASE_ALGORITHM_H
+#define LAR_ND_VERTEX_SELECTION_BASE_ALGORITHM_H 1
 
 #include "Objects/Vertex.h"
 #include "Pandora/Algorithm.h"
@@ -29,13 +29,13 @@ class KDTreeNodeInfoT;
 /**
  *  @brief  VertexSelectionBaseAlgorithm class
  */
-class VertexSelectionBaseAlgorithm : public pandora::Algorithm
+class ND_VertexSelectionBaseAlgorithm : public pandora::Algorithm
 {
 public:
     /**
      *  @brief  Default constructor
      */
-    VertexSelectionBaseAlgorithm();
+    ND_VertexSelectionBaseAlgorithm();
 
     /**
      *  @brief  VertexScore class
@@ -229,7 +229,7 @@ public:
     typedef std::map<pandora::HitType, const ShowerClusterList> ShowerClusterListMap; ///< Map of shower cluster lists for passing to tools
     typedef std::map<pandora::HitType, const std::reference_wrapper<HitKDTree2D>> KDTreeMap; ///< Map array of hit kd trees for passing to tools
 
-    typedef MvaFeatureTool<const VertexSelectionBaseAlgorithm *const, const pandora::Vertex *const, const SlidingFitDataListMap &,
+    typedef MvaFeatureTool<const ND_VertexSelectionBaseAlgorithm *const, const pandora::Vertex *const, const SlidingFitDataListMap &,
         const ClusterListMap &, const KDTreeMap &, const ShowerClusterListMap &, const float, float &>
         VertexFeatureTool; ///< The base type for the vertex feature tools
 
@@ -417,7 +417,7 @@ private:
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-inline float VertexSelectionBaseAlgorithm::GetBeamDeweightingScore(const BeamConstants &beamConstants, const pandora::Vertex *const pVertex) const
+inline float ND_VertexSelectionBaseAlgorithm::GetBeamDeweightingScore(const BeamConstants &beamConstants, const pandora::Vertex *const pVertex) const
 {
     const float vertexMinZ(std::max(pVertex->GetPosition().GetZ(), beamConstants.GetMinZCoordinate()));
     return (beamConstants.GetMinZCoordinate() - vertexMinZ) * beamConstants.GetDecayConstant();
@@ -425,7 +425,7 @@ inline float VertexSelectionBaseAlgorithm::GetBeamDeweightingScore(const BeamCon
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-inline bool VertexSelectionBaseAlgorithm::IsBeamModeOn() const
+inline bool ND_VertexSelectionBaseAlgorithm::IsBeamModeOn() const
 {
     return m_beamMode;
 }
@@ -433,7 +433,7 @@ inline bool VertexSelectionBaseAlgorithm::IsBeamModeOn() const
 //------------------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-inline VertexSelectionBaseAlgorithm::VertexScore::VertexScore(const pandora::Vertex *const pVertex, const float score) :
+inline ND_VertexSelectionBaseAlgorithm::VertexScore::VertexScore(const pandora::Vertex *const pVertex, const float score) :
     m_pVertex(pVertex),
     m_score(score)
 {
@@ -441,21 +441,21 @@ inline VertexSelectionBaseAlgorithm::VertexScore::VertexScore(const pandora::Ver
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-inline const pandora::Vertex *VertexSelectionBaseAlgorithm::VertexScore::GetVertex() const
+inline const pandora::Vertex *ND_VertexSelectionBaseAlgorithm::VertexScore::GetVertex() const
 {
     return m_pVertex;
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-inline float VertexSelectionBaseAlgorithm::VertexScore::GetScore() const
+inline float ND_VertexSelectionBaseAlgorithm::VertexScore::GetScore() const
 {
     return m_score;
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-inline bool VertexSelectionBaseAlgorithm::VertexScore::operator<(const VertexScore &rhs) const
+inline bool ND_VertexSelectionBaseAlgorithm::VertexScore::operator<(const VertexScore &rhs) const
 {
     return (this->GetScore() > rhs.GetScore());
 }
@@ -463,21 +463,21 @@ inline bool VertexSelectionBaseAlgorithm::VertexScore::operator<(const VertexSco
 //------------------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-inline float VertexSelectionBaseAlgorithm::BeamConstants::GetMinZCoordinate() const
+inline float ND_VertexSelectionBaseAlgorithm::BeamConstants::GetMinZCoordinate() const
 {
     return m_minZCoordinate.Get();
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-inline float VertexSelectionBaseAlgorithm::BeamConstants::GetDecayConstant() const
+inline float ND_VertexSelectionBaseAlgorithm::BeamConstants::GetDecayConstant() const
 {
     return m_decayConstant.Get();
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-inline void VertexSelectionBaseAlgorithm::BeamConstants::SetConstants(const float minZCoordinate, const float decayConstant)
+inline void ND_VertexSelectionBaseAlgorithm::BeamConstants::SetConstants(const float minZCoordinate, const float decayConstant)
 {
     m_minZCoordinate = minZCoordinate;
     m_decayConstant = decayConstant;
@@ -485,49 +485,49 @@ inline void VertexSelectionBaseAlgorithm::BeamConstants::SetConstants(const floa
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-inline const pandora::CartesianVector &VertexSelectionBaseAlgorithm::SlidingFitData::GetMinLayerDirection() const
+inline const pandora::CartesianVector &ND_VertexSelectionBaseAlgorithm::SlidingFitData::GetMinLayerDirection() const
 {
     return m_minLayerDirection;
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-inline const pandora::CartesianVector &VertexSelectionBaseAlgorithm::SlidingFitData::GetMaxLayerDirection() const
+inline const pandora::CartesianVector &ND_VertexSelectionBaseAlgorithm::SlidingFitData::GetMaxLayerDirection() const
 {
     return m_maxLayerDirection;
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-inline const pandora::CartesianVector &VertexSelectionBaseAlgorithm::SlidingFitData::GetMinLayerPosition() const
+inline const pandora::CartesianVector &ND_VertexSelectionBaseAlgorithm::SlidingFitData::GetMinLayerPosition() const
 {
     return m_minLayerPosition;
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-inline const pandora::CartesianVector &VertexSelectionBaseAlgorithm::SlidingFitData::GetMaxLayerPosition() const
+inline const pandora::CartesianVector &ND_VertexSelectionBaseAlgorithm::SlidingFitData::GetMaxLayerPosition() const
 {
     return m_maxLayerPosition;
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-inline const pandora::Cluster *VertexSelectionBaseAlgorithm::SlidingFitData::GetCluster() const
+inline const pandora::Cluster *ND_VertexSelectionBaseAlgorithm::SlidingFitData::GetCluster() const
 {
     return m_pCluster;
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-inline const pandora::ClusterList &VertexSelectionBaseAlgorithm::ShowerCluster::GetClusters() const
+inline const pandora::ClusterList &ND_VertexSelectionBaseAlgorithm::ShowerCluster::GetClusters() const
 {
     return m_clusterList;
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-inline const TwoDSlidingFitResult &VertexSelectionBaseAlgorithm::ShowerCluster::GetFit() const
+inline const TwoDSlidingFitResult &ND_VertexSelectionBaseAlgorithm::ShowerCluster::GetFit() const
 {
     return m_twoDSlidingFitResult;
 }

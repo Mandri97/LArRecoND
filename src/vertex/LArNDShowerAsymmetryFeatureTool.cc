@@ -1,12 +1,12 @@
 /**
- *  @file   larpandoracontent/LArVertex/ShowerAsymmetryFeatureTool.cc
+ *  @file   larpandoracontent/LArVertex/ND_ShowerAsymmetryFeatureTool.cc
  *
  *  @brief  Implementation of the shower asymmetry feature tool class.
  *
  *  $Log: $
  */
 
-#include "larpandoracontent/LArVertex/ShowerAsymmetryFeatureTool.h"
+#include "vertex/LArNDShowerAsymmetryFeatureTool.h"
 #include "Pandora/AlgorithmHeaders.h"
 #include "larpandoracontent/LArHelpers/LArClusterHelper.h"
 #include "larpandoracontent/LArHelpers/LArGeometryHelper.h"
@@ -16,20 +16,20 @@ using namespace pandora;
 namespace lar_content
 {
 
-ShowerAsymmetryFeatureTool::ShowerAsymmetryFeatureTool() :
-    AsymmetryFeatureBaseTool(),
+ND_ShowerAsymmetryFeatureTool::ND_ShowerAsymmetryFeatureTool() :
+    ND_AsymmetryFeatureBaseTool(),
     m_vertexClusterDistance(4.f)
 {
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-float ShowerAsymmetryFeatureTool::GetAsymmetryForView(const CartesianVector &vertexPosition2D,
-    const VertexSelectionBaseAlgorithm::SlidingFitDataList &, const VertexSelectionBaseAlgorithm::ShowerClusterList &showerClusterList) const
+float ND_ShowerAsymmetryFeatureTool::GetAsymmetryForView(const CartesianVector &vertexPosition2D,
+    const ND_VertexSelectionBaseAlgorithm::SlidingFitDataList &, const ND_VertexSelectionBaseAlgorithm::ShowerClusterList &showerClusterList) const
 {
     float showerAsymmetry(1.f);
 
-    for (const VertexSelectionBaseAlgorithm::ShowerCluster &showerCluster : showerClusterList)
+    for (const ND_VertexSelectionBaseAlgorithm::ShowerCluster &showerCluster : showerClusterList)
     {
         if (this->ShouldUseShowerCluster(vertexPosition2D, showerCluster))
         {
@@ -56,8 +56,8 @@ float ShowerAsymmetryFeatureTool::GetAsymmetryForView(const CartesianVector &ver
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-bool ShowerAsymmetryFeatureTool::ShouldUseShowerCluster(
-    const CartesianVector &vertexPosition, const VertexSelectionBaseAlgorithm::ShowerCluster &showerCluster) const
+bool ND_ShowerAsymmetryFeatureTool::ShouldUseShowerCluster(
+    const CartesianVector &vertexPosition, const ND_VertexSelectionBaseAlgorithm::ShowerCluster &showerCluster) const
 {
     for (const Cluster *const pCluster : showerCluster.GetClusters())
     {
@@ -71,12 +71,12 @@ bool ShowerAsymmetryFeatureTool::ShouldUseShowerCluster(
 //------------------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-StatusCode ShowerAsymmetryFeatureTool::ReadSettings(const TiXmlHandle xmlHandle)
+StatusCode ND_ShowerAsymmetryFeatureTool::ReadSettings(const TiXmlHandle xmlHandle)
 {
     PANDORA_RETURN_RESULT_IF_AND_IF(
         STATUS_CODE_SUCCESS, STATUS_CODE_NOT_FOUND, !=, XmlHelper::ReadValue(xmlHandle, "VertexClusterDistance", m_vertexClusterDistance));
 
-    return AsymmetryFeatureBaseTool::ReadSettings(xmlHandle);
+    return ND_AsymmetryFeatureBaseTool::ReadSettings(xmlHandle);
 }
 
 } // namespace lar_content

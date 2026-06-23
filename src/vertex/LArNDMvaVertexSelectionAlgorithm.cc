@@ -21,7 +21,7 @@
 #include "larpandoracontent/LArVertex/RPhiFeatureTool.h"
 #include "larpandoracontent/LArVertex/ShowerAsymmetryFeatureTool.h"
 
-#include "larpandoracontent/LArVertex/MvaVertexSelectionAlgorithm.h"
+#include "vertex/LArNDMvaVertexSelectionAlgorithm.h"
 
 #include "larpandoracontent/LArUtility/KDTreeLinkerAlgoT.h"
 
@@ -33,8 +33,8 @@ namespace lar_content
 {
 
 template <typename T>
-MvaVertexSelectionAlgorithm<T>::MvaVertexSelectionAlgorithm() :
-    TrainedVertexSelectionAlgorithm(),
+ND_MvaVertexSelectionAlgorithm<T>::ND_MvaVertexSelectionAlgorithm() :
+    ND_TrainedVertexSelectionAlgorithm(),
     m_filePathEnvironmentVariable("FW_SEARCH_PATH")
 {
 }
@@ -42,7 +42,7 @@ MvaVertexSelectionAlgorithm<T>::MvaVertexSelectionAlgorithm() :
 //------------------------------------------------------------------------------------------------------------------------------------------
 
 template <typename T>
-void MvaVertexSelectionAlgorithm<T>::GetVertexScoreList(const VertexVector &vertexVector, const BeamConstants &beamConstants,
+void ND_MvaVertexSelectionAlgorithm<T>::GetVertexScoreList(const VertexVector &vertexVector, const BeamConstants &beamConstants,
     HitKDTree2D &kdTreeU, HitKDTree2D &kdTreeV, HitKDTree2D &kdTreeW, VertexScoreList &vertexScoreList) const
 {
     ClusterList clustersU, clustersV, clustersW;
@@ -137,7 +137,7 @@ void MvaVertexSelectionAlgorithm<T>::GetVertexScoreList(const VertexVector &vert
 //------------------------------------------------------------------------------------------------------------------------------------------
 
 template <typename T>
-const pandora::Vertex *MvaVertexSelectionAlgorithm<T>::CompareVertices(const VertexVector &vertexVector, const VertexFeatureInfoMap &vertexFeatureInfoMap,
+const pandora::Vertex *ND_MvaVertexSelectionAlgorithm<T>::CompareVertices(const VertexVector &vertexVector, const VertexFeatureInfoMap &vertexFeatureInfoMap,
     const LArMvaHelper::MvaFeatureVector &eventFeatureList, const KDTreeMap &kdTreeMap, const T &t, const bool useRPhi) const
 {
     const Vertex *pBestVertex(vertexVector.front());
@@ -185,7 +185,7 @@ const pandora::Vertex *MvaVertexSelectionAlgorithm<T>::CompareVertices(const Ver
 //------------------------------------------------------------------------------------------------------------------------------------------
 
 template <typename T>
-StatusCode MvaVertexSelectionAlgorithm<T>::ReadSettings(const TiXmlHandle xmlHandle)
+StatusCode ND_MvaVertexSelectionAlgorithm<T>::ReadSettings(const TiXmlHandle xmlHandle)
 {
     PANDORA_RETURN_RESULT_IF_AND_IF(STATUS_CODE_SUCCESS, STATUS_CODE_NOT_FOUND, !=,
         XmlHelper::ReadValue(xmlHandle, "FilePathEnvironmentVariable", m_filePathEnvironmentVariable));
@@ -197,13 +197,13 @@ StatusCode MvaVertexSelectionAlgorithm<T>::ReadSettings(const TiXmlHandle xmlHan
     PANDORA_RETURN_RESULT_IF_AND_IF(STATUS_CODE_SUCCESS, STATUS_CODE_NOT_FOUND, !=, XmlHelper::ReadValue(xmlHandle, "VertexMvaName", m_vertexMvaName));
 
     // ATTN : Need access to base class member variables at this point, so call read settings prior to end of this function
-    PANDORA_RETURN_RESULT_IF(STATUS_CODE_SUCCESS, !=, TrainedVertexSelectionAlgorithm::ReadSettings(xmlHandle));
+    PANDORA_RETURN_RESULT_IF(STATUS_CODE_SUCCESS, !=, ND_TrainedVertexSelectionAlgorithm::ReadSettings(xmlHandle));
 
     if ((!m_trainingSetMode || m_allowClassifyDuringTraining))
     {
         if (m_mvaFileName.empty() || m_regionMvaName.empty() || m_vertexMvaName.empty())
         {
-            std::cout << "MvaVertexSelectionAlgorithm: MvaFileName, RegionMvaName and VertexMvaName must be set if training set mode is"
+            std::cout << "ND_MvaVertexSelectionAlgorithm: MvaFileName, RegionMvaName and VertexMvaName must be set if training set mode is"
                       << "off or we allow classification during training" << std::endl;
             return STATUS_CODE_INVALID_PARAMETER;
         }
@@ -216,7 +216,7 @@ StatusCode MvaVertexSelectionAlgorithm<T>::ReadSettings(const TiXmlHandle xmlHan
     return STATUS_CODE_SUCCESS;
 }
 
-template class MvaVertexSelectionAlgorithm<AdaBoostDecisionTree>;
-template class MvaVertexSelectionAlgorithm<SupportVectorMachine>;
+template class ND_MvaVertexSelectionAlgorithm<AdaBoostDecisionTree>;
+template class ND_MvaVertexSelectionAlgorithm<SupportVectorMachine>;
 
 } // namespace lar_content

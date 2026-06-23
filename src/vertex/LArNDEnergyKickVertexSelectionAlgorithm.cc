@@ -1,5 +1,5 @@
 /**
- *  @file   larpandoracontent/LArVertex/EnergyKickVertexSelectionAlgorithm.cc
+ *  @file   larpandoracontent/LArVertex/ND_EnergyKickVertexSelectionAlgorithm.cc
  *
  *  @brief  Implementation of the energy kick vertex selection algorithm class.
  *
@@ -9,17 +9,17 @@
 
 #include "larpandoracontent/LArHelpers/LArMvaHelper.h"
 
-#include "larpandoracontent/LArVertex/EnergyKickFeatureTool.h"
-#include "larpandoracontent/LArVertex/LocalAsymmetryFeatureTool.h"
+#include "vertex/LArNDEnergyKickFeatureTool.h"
+#include "vertex/LArNDLocalAsymmetryFeatureTool.h"
 
-#include "larpandoracontent/LArVertex/EnergyKickVertexSelectionAlgorithm.h"
+#include "vertex/LArNDEnergyKickVertexSelectionAlgorithm.h"
 
 using namespace pandora;
 
 namespace lar_content
 {
 
-EnergyKickVertexSelectionAlgorithm::EnergyKickVertexSelectionAlgorithm() :
+ND_EnergyKickVertexSelectionAlgorithm::ND_EnergyKickVertexSelectionAlgorithm() :
     m_minClusterCaloHits(12),
     m_slidingFitWindow(100),
     m_epsilon(0.06),
@@ -29,7 +29,7 @@ EnergyKickVertexSelectionAlgorithm::EnergyKickVertexSelectionAlgorithm() :
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-void EnergyKickVertexSelectionAlgorithm::GetVertexScoreList(const VertexVector &vertexVector, const BeamConstants &beamConstants,
+void ND_EnergyKickVertexSelectionAlgorithm::GetVertexScoreList(const VertexVector &vertexVector, const BeamConstants &beamConstants,
     HitKDTree2D & /*kdTreeU*/, HitKDTree2D & /*kdTreeV*/, HitKDTree2D & /*kdTreeW*/, VertexScoreList &vertexScoreList) const
 {
     ClusterList clustersU, clustersV, clustersW;
@@ -49,12 +49,12 @@ void EnergyKickVertexSelectionAlgorithm::GetVertexScoreList(const VertexVector &
     {
         const float beamDeweightingScore(this->IsBeamModeOn() ? this->GetBeamDeweightingScore(beamConstants, pVertex) : 0.f);
 
-        const float energyKick(LArMvaHelper::CalculateFeaturesOfType<EnergyKickFeatureTool>(m_featureToolVector, this, pVertex,
+        const float energyKick(LArMvaHelper::CalculateFeaturesOfType<ND_EnergyKickFeatureTool>(m_featureToolVector, this, pVertex,
             slidingFitDataListMap, ClusterListMap(), KDTreeMap(), ShowerClusterListMap(), beamDeweightingScore, bestFastScore)
                                    .at(0)
                                    .Get());
 
-        const float energyAsymmetry(LArMvaHelper::CalculateFeaturesOfType<LocalAsymmetryFeatureTool>(m_featureToolVector, this, pVertex,
+        const float energyAsymmetry(LArMvaHelper::CalculateFeaturesOfType<ND_LocalAsymmetryFeatureTool>(m_featureToolVector, this, pVertex,
             slidingFitDataListMap, ClusterListMap(), KDTreeMap(), ShowerClusterListMap(), beamDeweightingScore, bestFastScore)
                                         .at(0)
                                         .Get());
@@ -69,7 +69,7 @@ void EnergyKickVertexSelectionAlgorithm::GetVertexScoreList(const VertexVector &
 //------------------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-StatusCode EnergyKickVertexSelectionAlgorithm::ReadSettings(const TiXmlHandle xmlHandle)
+StatusCode ND_EnergyKickVertexSelectionAlgorithm::ReadSettings(const TiXmlHandle xmlHandle)
 {
     AlgorithmToolVector algorithmToolVector;
     PANDORA_RETURN_RESULT_IF(STATUS_CODE_SUCCESS, !=, XmlHelper::ProcessAlgorithmToolList(*this, xmlHandle, "FeatureTools", algorithmToolVector));
@@ -92,12 +92,12 @@ StatusCode EnergyKickVertexSelectionAlgorithm::ReadSettings(const TiXmlHandle xm
 
     if ((m_epsilon < std::numeric_limits<float>::epsilon()) || (m_asymmetryConstant < std::numeric_limits<float>::epsilon()))
     {
-        std::cout << "EnergyKickVertexSelection: Invalid parameter(s), Epsilon " << m_epsilon << ", AsymmetryConstant "
+        std::cout << "ND_EnergyKickVertexSelection: Invalid parameter(s), Epsilon " << m_epsilon << ", AsymmetryConstant "
                   << m_asymmetryConstant << std::endl;
         return STATUS_CODE_INVALID_PARAMETER;
     }
 
-    return VertexSelectionBaseAlgorithm::ReadSettings(xmlHandle);
+    return ND_VertexSelectionBaseAlgorithm::ReadSettings(xmlHandle);
 }
 
 } // namespace lar_content

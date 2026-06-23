@@ -1,5 +1,5 @@
 /**
- *  @file   larpandoracontent/LArVertex/LocalAsymmetryFeatureTool.cc
+ *  @file   larpandoracontent/LArVertex/ND_LocalAsymmetryFeatureTool.cc
  *
  *  @brief  Implementation of the local asymmetry feature tool class.
  *
@@ -10,15 +10,15 @@
 
 #include "larpandoracontent/LArHelpers/LArClusterHelper.h"
 
-#include "larpandoracontent/LArVertex/LocalAsymmetryFeatureTool.h"
+#include "vertex/LArNDLocalAsymmetryFeatureTool.h"
 
 using namespace pandora;
 
 namespace lar_content
 {
 
-LocalAsymmetryFeatureTool::LocalAsymmetryFeatureTool() :
-    AsymmetryFeatureBaseTool(),
+ND_LocalAsymmetryFeatureTool::ND_LocalAsymmetryFeatureTool() :
+    ND_AsymmetryFeatureBaseTool(),
     m_minAsymmetryCosAngle(0.9962),
     m_maxAsymmetryNClusters(2)
 {
@@ -26,14 +26,14 @@ LocalAsymmetryFeatureTool::LocalAsymmetryFeatureTool() :
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-float LocalAsymmetryFeatureTool::GetAsymmetryForView(const CartesianVector &vertexPosition2D,
-    const VertexSelectionBaseAlgorithm::SlidingFitDataList &slidingFitDataList, const VertexSelectionBaseAlgorithm::ShowerClusterList &) const
+float ND_LocalAsymmetryFeatureTool::GetAsymmetryForView(const CartesianVector &vertexPosition2D,
+    const ND_VertexSelectionBaseAlgorithm::SlidingFitDataList &slidingFitDataList, const ND_VertexSelectionBaseAlgorithm::ShowerClusterList &) const
 {
     bool useEnergy(true), useAsymmetry(true);
     CartesianVector energyWeightedDirectionSum(0.f, 0.f, 0.f), hitWeightedDirectionSum(0.f, 0.f, 0.f);
     ClusterVector asymmetryClusters;
 
-    for (const VertexSelectionBaseAlgorithm::SlidingFitData &slidingFitData : slidingFitDataList)
+    for (const ND_VertexSelectionBaseAlgorithm::SlidingFitData &slidingFitData : slidingFitDataList)
     {
         const Cluster *const pCluster(slidingFitData.GetCluster());
 
@@ -75,7 +75,7 @@ float LocalAsymmetryFeatureTool::GetAsymmetryForView(const CartesianVector &vert
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-bool LocalAsymmetryFeatureTool::CheckAngle(const CartesianVector &weightedDirectionSum, const CartesianVector &clusterDirection) const
+bool ND_LocalAsymmetryFeatureTool::CheckAngle(const CartesianVector &weightedDirectionSum, const CartesianVector &clusterDirection) const
 {
     if (!(weightedDirectionSum.GetMagnitudeSquared() > std::numeric_limits<float>::epsilon()))
         return true;
@@ -86,7 +86,7 @@ bool LocalAsymmetryFeatureTool::CheckAngle(const CartesianVector &weightedDirect
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-StatusCode LocalAsymmetryFeatureTool::ReadSettings(const TiXmlHandle xmlHandle)
+StatusCode ND_LocalAsymmetryFeatureTool::ReadSettings(const TiXmlHandle xmlHandle)
 {
     PANDORA_RETURN_RESULT_IF_AND_IF(
         STATUS_CODE_SUCCESS, STATUS_CODE_NOT_FOUND, !=, XmlHelper::ReadValue(xmlHandle, "MinAsymmetryCosAngle", m_minAsymmetryCosAngle));
@@ -94,7 +94,7 @@ StatusCode LocalAsymmetryFeatureTool::ReadSettings(const TiXmlHandle xmlHandle)
     PANDORA_RETURN_RESULT_IF_AND_IF(
         STATUS_CODE_SUCCESS, STATUS_CODE_NOT_FOUND, !=, XmlHelper::ReadValue(xmlHandle, "MaxAsymmetryNClusters", m_maxAsymmetryNClusters));
 
-    return AsymmetryFeatureBaseTool::ReadSettings(xmlHandle);
+    return ND_AsymmetryFeatureBaseTool::ReadSettings(xmlHandle);
 }
 
 } // namespace lar_content

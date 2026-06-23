@@ -5,10 +5,10 @@
  *
  *  $Log: $
  */
-#ifndef LAR_RPHI_FEATURE_TOOL_H
-#define LAR_RPHI_FEATURE_TOOL_H 1
+#ifndef LAR_ND_RPHI_FEATURE_TOOL_H
+#define LAR_ND_RPHI_FEATURE_TOOL_H 1
 
-#include "larpandoracontent/LArVertex/VertexSelectionBaseAlgorithm.h"
+#include "vertex/LArNDVertexSelectionBaseAlgorithm.h"
 
 #include "larpandoracontent/LArUtility/KDTreeLinkerAlgoT.h"
 
@@ -18,13 +18,13 @@ namespace lar_content
 /**
  *  @brief  RPhiFeatureTool class
  */
-class RPhiFeatureTool : public VertexSelectionBaseAlgorithm::VertexFeatureTool
+class ND_RPhiFeatureTool : public ND_VertexSelectionBaseAlgorithm::VertexFeatureTool
 {
 public:
     /**
      *  @brief  Default constructor
      */
-    RPhiFeatureTool();
+    ND_RPhiFeatureTool();
 
     /**
      *  @brief  Run the tool
@@ -37,10 +37,10 @@ public:
      *
      *  @return the r/phi feature
      */
-    void Run(LArMvaHelper::MvaFeatureVector &featureVector, const VertexSelectionBaseAlgorithm *const pAlgorithm,
-        const pandora::Vertex *const pVertex, const VertexSelectionBaseAlgorithm::SlidingFitDataListMap &,
-        const VertexSelectionBaseAlgorithm::ClusterListMap &, const VertexSelectionBaseAlgorithm::KDTreeMap &kdTreeMap,
-        const VertexSelectionBaseAlgorithm::ShowerClusterListMap &, const float beamDeweightingScore, float &bestFastScore);
+    void Run(LArMvaHelper::MvaFeatureVector &featureVector, const ND_VertexSelectionBaseAlgorithm *const pAlgorithm,
+        const pandora::Vertex *const pVertex, const ND_VertexSelectionBaseAlgorithm::SlidingFitDataListMap &,
+        const ND_VertexSelectionBaseAlgorithm::ClusterListMap &, const ND_VertexSelectionBaseAlgorithm::KDTreeMap &kdTreeMap,
+        const ND_VertexSelectionBaseAlgorithm::ShowerClusterListMap &, const float beamDeweightingScore, float &bestFastScore);
 
 private:
     /**
@@ -140,7 +140,7 @@ private:
      *  @param  kernelEstimate to receive the populated kernel estimate
      */
     void FillKernelEstimate(const pandora::Vertex *const pVertex, const pandora::HitType hitType,
-        VertexSelectionBaseAlgorithm::HitKDTree2D &kdTree, KernelEstimate &kernelEstimate) const;
+        ND_VertexSelectionBaseAlgorithm::HitKDTree2D &kdTree, KernelEstimate &kernelEstimate) const;
 
     /**
      *  @brief  Whether to accept a candidate vertex, based on its spatial position in relation to other selected candidates
@@ -180,7 +180,7 @@ private:
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-inline RPhiFeatureTool::KernelEstimate::KernelEstimate(const float sigma) :
+inline ND_RPhiFeatureTool::KernelEstimate::KernelEstimate(const float sigma) :
     m_sigma(sigma)
 {
     if (m_sigma < std::numeric_limits<float>::epsilon())
@@ -189,14 +189,14 @@ inline RPhiFeatureTool::KernelEstimate::KernelEstimate(const float sigma) :
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-inline const RPhiFeatureTool::KernelEstimate::ContributionList &RPhiFeatureTool::KernelEstimate::GetContributionList() const
+inline const ND_RPhiFeatureTool::KernelEstimate::ContributionList &ND_RPhiFeatureTool::KernelEstimate::GetContributionList() const
 {
     return m_contributionList;
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-inline float RPhiFeatureTool::KernelEstimate::GetSigma() const
+inline float ND_RPhiFeatureTool::KernelEstimate::GetSigma() const
 {
     return m_sigma;
 }

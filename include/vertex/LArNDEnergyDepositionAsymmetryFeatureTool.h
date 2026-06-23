@@ -5,10 +5,10 @@
  *
  *  $Log: $
  */
-#ifndef LAR_ENERGY_DEPOSITION_ASYMMETRY_FEATURE_TOOL_H
-#define LAR_ENERGY_DEPOSITION_ASYMMETRY_FEATURE_TOOL_H 1
+#ifndef LAR_ND_ENERGY_DEPOSITION_ASYMMETRY_FEATURE_TOOL_H
+#define LAR_ND_ENERGY_DEPOSITION_ASYMMETRY_FEATURE_TOOL_H 1
 
-#include "larpandoracontent/LArVertex/GlobalAsymmetryFeatureTool.h"
+#include "vertex/LArNDGlobalAsymmetryFeatureTool.h"
 
 namespace lar_content
 {
@@ -16,13 +16,13 @@ namespace lar_content
 /**
  *  @brief  EnergyDepositionAsymmetryFeatureTool class
  */
-class EnergyDepositionAsymmetryFeatureTool : public GlobalAsymmetryFeatureTool
+class ND_EnergyDepositionAsymmetryFeatureTool : public ND_GlobalAsymmetryFeatureTool
 {
 public:
     /**
      *  @brief  Default constructor
      */
-    EnergyDepositionAsymmetryFeatureTool();
+    ND_EnergyDepositionAsymmetryFeatureTool();
 
 private:
     pandora::StatusCode ReadSettings(const pandora::TiXmlHandle xmlHandle) override;

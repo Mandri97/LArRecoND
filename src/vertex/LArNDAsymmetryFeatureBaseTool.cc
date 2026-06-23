@@ -1,12 +1,12 @@
 /**
- *  @file   larpandoracontent/LArVertex/AsymmetryFeatureBaseTool.cc
+ *  @file   larpandoracontent/LArVertex/ND_AsymmetryFeatureBaseTool.cc
  *
  *  @brief  Implementation of the  asymmetry feature tool class.
  *
  *  $Log: $
  */
 
-#include "larpandoracontent/LArVertex/AsymmetryFeatureBaseTool.h"
+#include "vertex/LArNDAsymmetryFeatureBaseTool.h"
 #include "Pandora/AlgorithmHeaders.h"
 #include "larpandoracontent/LArHelpers/LArClusterHelper.h"
 #include "larpandoracontent/LArHelpers/LArGeometryHelper.h"
@@ -16,17 +16,17 @@ using namespace pandora;
 namespace lar_content
 {
 
-AsymmetryFeatureBaseTool::AsymmetryFeatureBaseTool() :
+ND_AsymmetryFeatureBaseTool::ND_AsymmetryFeatureBaseTool() :
     m_maxAsymmetryDistance(5.f)
 {
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-void AsymmetryFeatureBaseTool::Run(LArMvaHelper::MvaFeatureVector &featureVector, const VertexSelectionBaseAlgorithm *const pAlgorithm,
-    const Vertex *const pVertex, const VertexSelectionBaseAlgorithm::SlidingFitDataListMap &slidingFitDataListMap,
-    const VertexSelectionBaseAlgorithm::ClusterListMap &, const VertexSelectionBaseAlgorithm::KDTreeMap &,
-    const VertexSelectionBaseAlgorithm::ShowerClusterListMap &showerClusterListMap, const float, float &)
+void ND_AsymmetryFeatureBaseTool::Run(LArMvaHelper::MvaFeatureVector &featureVector, const ND_VertexSelectionBaseAlgorithm *const pAlgorithm,
+    const Vertex *const pVertex, const ND_VertexSelectionBaseAlgorithm::SlidingFitDataListMap &slidingFitDataListMap,
+    const ND_VertexSelectionBaseAlgorithm::ClusterListMap &, const ND_VertexSelectionBaseAlgorithm::KDTreeMap &,
+    const ND_VertexSelectionBaseAlgorithm::ShowerClusterListMap &showerClusterListMap, const float, float &)
 {
     if (PandoraContentApi::GetSettings(*pAlgorithm)->ShouldDisplayAlgorithmInfo())
         std::cout << "----> Running Algorithm Tool: " << this->GetInstanceName() << ", " << this->GetType() << std::endl;
@@ -35,22 +35,22 @@ void AsymmetryFeatureBaseTool::Run(LArMvaHelper::MvaFeatureVector &featureVector
 
     asymmetry += this->GetAsymmetryForView(LArGeometryHelper::ProjectPosition(this->GetPandora(), pVertex->GetPosition(), TPC_VIEW_U),
         slidingFitDataListMap.at(TPC_VIEW_U),
-        showerClusterListMap.empty() ? VertexSelectionBaseAlgorithm::ShowerClusterList() : showerClusterListMap.at(TPC_VIEW_U));
+        showerClusterListMap.empty() ? ND_VertexSelectionBaseAlgorithm::ShowerClusterList() : showerClusterListMap.at(TPC_VIEW_U));
 
     asymmetry += this->GetAsymmetryForView(LArGeometryHelper::ProjectPosition(this->GetPandora(), pVertex->GetPosition(), TPC_VIEW_V),
         slidingFitDataListMap.at(TPC_VIEW_V),
-        showerClusterListMap.empty() ? VertexSelectionBaseAlgorithm::ShowerClusterList() : showerClusterListMap.at(TPC_VIEW_V));
+        showerClusterListMap.empty() ? ND_VertexSelectionBaseAlgorithm::ShowerClusterList() : showerClusterListMap.at(TPC_VIEW_V));
 
     asymmetry += this->GetAsymmetryForView(LArGeometryHelper::ProjectPosition(this->GetPandora(), pVertex->GetPosition(), TPC_VIEW_W),
         slidingFitDataListMap.at(TPC_VIEW_W),
-        showerClusterListMap.empty() ? VertexSelectionBaseAlgorithm::ShowerClusterList() : showerClusterListMap.at(TPC_VIEW_W));
+        showerClusterListMap.empty() ? ND_VertexSelectionBaseAlgorithm::ShowerClusterList() : showerClusterListMap.at(TPC_VIEW_W));
 
     featureVector.push_back(asymmetry);
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-void AsymmetryFeatureBaseTool::IncrementAsymmetryParameters(
+void ND_AsymmetryFeatureBaseTool::IncrementAsymmetryParameters(
     const float weight, const CartesianVector &clusterDirection, CartesianVector &localWeightedDirectionSum) const
 {
     // If the new axis direction is at an angle of greater than 90 deg to the current axis direction, flip it 180 degs.
@@ -67,7 +67,7 @@ void AsymmetryFeatureBaseTool::IncrementAsymmetryParameters(
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-float AsymmetryFeatureBaseTool::CalculateAsymmetry(const bool useEnergyMetrics, const CartesianVector &vertexPosition2D,
+float ND_AsymmetryFeatureBaseTool::CalculateAsymmetry(const bool useEnergyMetrics, const CartesianVector &vertexPosition2D,
     const ClusterVector &asymmetryClusters, const CartesianVector &localWeightedDirectionSum) const
 {
     // Project every hit onto local event axis direction and record side of the projected vtx position on which it falls
@@ -115,7 +115,7 @@ float AsymmetryFeatureBaseTool::CalculateAsymmetry(const bool useEnergyMetrics, 
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-StatusCode AsymmetryFeatureBaseTool::ReadSettings(const TiXmlHandle xmlHandle)
+StatusCode ND_AsymmetryFeatureBaseTool::ReadSettings(const TiXmlHandle xmlHandle)
 {
     PANDORA_RETURN_RESULT_IF_AND_IF(
         STATUS_CODE_SUCCESS, STATUS_CODE_NOT_FOUND, !=, XmlHelper::ReadValue(xmlHandle, "MaxAsymmetryDistance", m_maxAsymmetryDistance));

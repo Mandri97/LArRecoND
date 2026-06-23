@@ -1,12 +1,12 @@
 /**
- *  @file   larpandoracontent/LArVertex/TrainedVertexSelectionAlgorithm.h
+ *  @file   larpandoracontent/LArVertex/ND_TrainedVertexSelectionAlgorithm.h
  *
  *  @brief  Header file for the trained vertex selection algorithm class.
  *
  *  $Log: $
  */
-#ifndef LAR_TRAINED_VERTEX_SELECTION_ALGORITHM_H
-#define LAR_TRAINED_VERTEX_SELECTION_ALGORITHM_H 1
+#ifndef LAR_ND_TRAINED_VERTEX_SELECTION_ALGORITHM_H
+#define LAR_ND_TRAINED_VERTEX_SELECTION_ALGORITHM_H 1
 
 #include "Api/PandoraContentApi.h"
 
@@ -16,7 +16,7 @@
 
 #include "larpandoracontent/LArHelpers/LArMCParticleHelper.h"
 
-#include "larpandoracontent/LArVertex/VertexSelectionBaseAlgorithm.h"
+#include "vertex/LArNDVertexSelectionBaseAlgorithm.h"
 
 #include <random>
 
@@ -31,9 +31,9 @@ class KDTreeNodeInfoT;
 //------------------------------------------------------------------------------------------------------------------------------------------
 
 /**
- *  @brief  TrainedVertexSelectionAlgorithm class
+ *  @brief  ND_TrainedVertexSelectionAlgorithm class
  */
-class TrainedVertexSelectionAlgorithm : public VertexSelectionBaseAlgorithm
+class ND_TrainedVertexSelectionAlgorithm : public ND_VertexSelectionBaseAlgorithm
 {
 public:
     /**
@@ -125,7 +125,7 @@ public:
     /**
      *  @brief  Default constructor
      */
-    TrainedVertexSelectionAlgorithm();
+    ND_TrainedVertexSelectionAlgorithm();
 
 protected:
     typedef std::pair<pandora::CartesianVector, pandora::CartesianVector> ClusterEndPoints;
@@ -484,7 +484,7 @@ protected:
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-inline TrainedVertexSelectionAlgorithm::VertexFeatureInfo::VertexFeatureInfo(const float beamDeweighting, const float rPhiFeature, const float energyKick,
+inline ND_TrainedVertexSelectionAlgorithm::VertexFeatureInfo::VertexFeatureInfo(const float beamDeweighting, const float rPhiFeature, const float energyKick,
     const float localAsymmetry, const float globalAsymmetry, const float showerAsymmetry, const float dEdxAsymmetry, const float vertexEnergy) :
     m_beamDeweighting(beamDeweighting),
     m_rPhiFeature(rPhiFeature),
@@ -499,7 +499,7 @@ inline TrainedVertexSelectionAlgorithm::VertexFeatureInfo::VertexFeatureInfo(con
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-inline TrainedVertexSelectionAlgorithm::EventFeatureInfo::EventFeatureInfo(const float eventShoweryness, const float eventEnergy,
+inline ND_TrainedVertexSelectionAlgorithm::EventFeatureInfo::EventFeatureInfo(const float eventShoweryness, const float eventEnergy,
     const float eventArea, const float longitudinality, const unsigned int nHits, const unsigned int nClusters, const unsigned int nCandidates) :
     m_eventShoweryness(eventShoweryness),
     m_eventEnergy(eventEnergy),
@@ -513,7 +513,7 @@ inline TrainedVertexSelectionAlgorithm::EventFeatureInfo::EventFeatureInfo(const
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-inline TrainedVertexSelectionAlgorithm::VertexSharedFeatureInfo::VertexSharedFeatureInfo(const float separation, const float axisHits) :
+inline ND_TrainedVertexSelectionAlgorithm::VertexSharedFeatureInfo::VertexSharedFeatureInfo(const float separation, const float axisHits) :
     m_separation(separation),
     m_axisHits(axisHits)
 {

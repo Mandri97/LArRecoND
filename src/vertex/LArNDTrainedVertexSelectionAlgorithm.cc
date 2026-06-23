@@ -1,5 +1,5 @@
 /**
- *  @file   larpandoracontent/LArVertex/TrainedVertexSelectionAlgorithm.cc
+ *  @file   larpandoracontent/LArVertex/ND_TrainedVertexSelectionAlgorithm.cc
  *
  *  @brief  Implementation of the trained vertex selection algorithm class.
  *
@@ -15,14 +15,14 @@
 #include "larpandoracontent/LArHelpers/LArMCParticleHelper.h"
 #include "larpandoracontent/LArHelpers/LArMvaHelper.h"
 
-#include "larpandoracontent/LArVertex/EnergyDepositionAsymmetryFeatureTool.h"
-#include "larpandoracontent/LArVertex/EnergyKickFeatureTool.h"
-#include "larpandoracontent/LArVertex/GlobalAsymmetryFeatureTool.h"
-#include "larpandoracontent/LArVertex/LocalAsymmetryFeatureTool.h"
-#include "larpandoracontent/LArVertex/RPhiFeatureTool.h"
-#include "larpandoracontent/LArVertex/ShowerAsymmetryFeatureTool.h"
+#include "vertex/LArNDEnergyDepositionAsymmetryFeatureTool.h"
+#include "vertex/LArNDEnergyKickFeatureTool.h"
+#include "vertex/LArNDGlobalAsymmetryFeatureTool.h"
+#include "vertex/LArNDLocalAsymmetryFeatureTool.h"
+#include "vertex/LArNDRPhiFeatureTool.h"
+#include "vertex/LArNDShowerAsymmetryFeatureTool.h"
 
-#include "larpandoracontent/LArVertex/TrainedVertexSelectionAlgorithm.h"
+#include "vertex/LArNDTrainedVertexSelectionAlgorithm.h"
 
 #include "larpandoracontent/LArUtility/KDTreeLinkerAlgoT.h"
 
@@ -33,8 +33,8 @@ using namespace pandora;
 namespace lar_content
 {
 
-TrainedVertexSelectionAlgorithm::TrainedVertexSelectionAlgorithm() :
-    VertexSelectionBaseAlgorithm(),
+ND_TrainedVertexSelectionAlgorithm::ND_TrainedVertexSelectionAlgorithm() :
+    ND_VertexSelectionBaseAlgorithm(),
     m_trainingSetMode(false),
     m_allowClassifyDuringTraining(false),
     m_mcVertexXCorrection(0.f),
@@ -62,7 +62,7 @@ TrainedVertexSelectionAlgorithm::TrainedVertexSelectionAlgorithm() :
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-void TrainedVertexSelectionAlgorithm::CalculateShowerClusterList(const ClusterList &inputClusterList, ShowerClusterList &showerClusterList) const
+void ND_TrainedVertexSelectionAlgorithm::CalculateShowerClusterList(const ClusterList &inputClusterList, ShowerClusterList &showerClusterList) const
 {
     ClusterEndPointsMap clusterEndPointsMap;
     ClusterList showerLikeClusters;
@@ -116,7 +116,7 @@ void TrainedVertexSelectionAlgorithm::CalculateShowerClusterList(const ClusterLi
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-void TrainedVertexSelectionAlgorithm::GetShowerLikeClusterEndPoints(
+void ND_TrainedVertexSelectionAlgorithm::GetShowerLikeClusterEndPoints(
     const ClusterList &clusterList, ClusterList &showerLikeClusters, ClusterEndPointsMap &clusterEndPointsMap) const
 {
     for (const Cluster *const pCluster : clusterList)
@@ -143,7 +143,7 @@ void TrainedVertexSelectionAlgorithm::GetShowerLikeClusterEndPoints(
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-void TrainedVertexSelectionAlgorithm::PopulateKdTree(const ClusterList &clusterList, HitKDTree2D &kdTree, HitToClusterMap &hitToClusterMap) const
+void ND_TrainedVertexSelectionAlgorithm::PopulateKdTree(const ClusterList &clusterList, HitKDTree2D &kdTree, HitToClusterMap &hitToClusterMap) const
 {
     CaloHitList allCaloHits;
 
@@ -164,7 +164,7 @@ void TrainedVertexSelectionAlgorithm::PopulateKdTree(const ClusterList &clusterL
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-bool TrainedVertexSelectionAlgorithm::AddClusterToShower(const ClusterEndPointsMap &clusterEndPointsMap,
+bool ND_TrainedVertexSelectionAlgorithm::AddClusterToShower(const ClusterEndPointsMap &clusterEndPointsMap,
     ClusterList &availableShowerLikeClusters, const Cluster *const pCluster, ClusterList &showerCluster) const
 {
     const auto existingEndPointsIter(clusterEndPointsMap.find(pCluster));
@@ -202,7 +202,7 @@ bool TrainedVertexSelectionAlgorithm::AddClusterToShower(const ClusterEndPointsM
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-bool TrainedVertexSelectionAlgorithm::AddClusterToShower(HitKDTree2D &kdTree, const HitToClusterMap &hitToClusterMap,
+bool ND_TrainedVertexSelectionAlgorithm::AddClusterToShower(HitKDTree2D &kdTree, const HitToClusterMap &hitToClusterMap,
     ClusterList &availableShowerLikeClusters, const Cluster *const pCluster, ClusterList &showerCluster) const
 {
     ClusterSet nearbyClusters;
@@ -237,7 +237,7 @@ bool TrainedVertexSelectionAlgorithm::AddClusterToShower(HitKDTree2D &kdTree, co
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-typename TrainedVertexSelectionAlgorithm::EventFeatureInfo TrainedVertexSelectionAlgorithm::CalculateEventFeatures(
+typename ND_TrainedVertexSelectionAlgorithm::EventFeatureInfo ND_TrainedVertexSelectionAlgorithm::CalculateEventFeatures(
     const ClusterList &clusterListU, const ClusterList &clusterListV, const ClusterList &clusterListW, const VertexVector &vertexVector) const
 {
     float eventEnergy(0.f);
@@ -267,7 +267,7 @@ typename TrainedVertexSelectionAlgorithm::EventFeatureInfo TrainedVertexSelectio
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-void TrainedVertexSelectionAlgorithm::IncrementShoweryParameters(
+void ND_TrainedVertexSelectionAlgorithm::IncrementShoweryParameters(
     const ClusterList &clusterList, unsigned int &nShoweryHits, unsigned int &nHits, float &eventEnergy) const
 {
     for (const Cluster *const pCluster : clusterList)
@@ -282,14 +282,14 @@ void TrainedVertexSelectionAlgorithm::IncrementShoweryParameters(
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-inline bool TrainedVertexSelectionAlgorithm::IsClusterShowerLike(const Cluster *const pCluster) const
+inline bool ND_TrainedVertexSelectionAlgorithm::IsClusterShowerLike(const Cluster *const pCluster) const
 {
     return (pCluster->GetParticleId() == E_MINUS && LArClusterHelper::GetLength(pCluster) < m_minShowerSpineLength);
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-void TrainedVertexSelectionAlgorithm::GetLegacyEventShapeFeatures(const ClusterList &clusterList, float &eventVolume, float &longitudinality) const
+void ND_TrainedVertexSelectionAlgorithm::GetLegacyEventShapeFeatures(const ClusterList &clusterList, float &eventVolume, float &longitudinality) const
 {
     InputFloat xMin, yMin, zMin, xMax, yMax, zMax;
 
@@ -329,7 +329,7 @@ void TrainedVertexSelectionAlgorithm::GetLegacyEventShapeFeatures(const ClusterL
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-void TrainedVertexSelectionAlgorithm::GetEventShapeFeatures(const ClusterListMap &clusterListMap, float &eventArea, float &longitudinality) const
+void ND_TrainedVertexSelectionAlgorithm::GetEventShapeFeatures(const ClusterListMap &clusterListMap, float &eventArea, float &longitudinality) const
 {
     float xSpanU(0.f), zSpanU(0.f), xSpanV(0.f), zSpanV(0.f), xSpanW(0.f), zSpanW(0.f);
 
@@ -349,7 +349,7 @@ void TrainedVertexSelectionAlgorithm::GetEventShapeFeatures(const ClusterListMap
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-void TrainedVertexSelectionAlgorithm::Get2DSpan(const ClusterList &clusterList, float &xSpan, float &zSpan) const
+void ND_TrainedVertexSelectionAlgorithm::Get2DSpan(const ClusterList &clusterList, float &xSpan, float &zSpan) const
 {
     FloatVector xPositions, zPositions;
 
@@ -387,7 +387,7 @@ void TrainedVertexSelectionAlgorithm::Get2DSpan(const ClusterList &clusterList, 
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-inline void TrainedVertexSelectionAlgorithm::UpdateSpanCoordinate(
+inline void ND_TrainedVertexSelectionAlgorithm::UpdateSpanCoordinate(
     const float minPositionCoord, const float maxPositionCoord, InputFloat &minCoord, InputFloat &maxCoord) const
 {
     if (!minCoord.IsInitialized() || minPositionCoord < minCoord.Get())
@@ -399,7 +399,7 @@ inline void TrainedVertexSelectionAlgorithm::UpdateSpanCoordinate(
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-inline float TrainedVertexSelectionAlgorithm::GetCoordinateSpan(const InputFloat &minCoord, const InputFloat &maxCoord) const
+inline float ND_TrainedVertexSelectionAlgorithm::GetCoordinateSpan(const InputFloat &minCoord, const InputFloat &maxCoord) const
 {
     if (minCoord.IsInitialized() && maxCoord.IsInitialized())
         return std::fabs(maxCoord.Get() - minCoord.Get());
@@ -409,7 +409,7 @@ inline float TrainedVertexSelectionAlgorithm::GetCoordinateSpan(const InputFloat
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-void TrainedVertexSelectionAlgorithm::AddEventFeaturesToVector(const EventFeatureInfo &eventFeatureInfo, LArMvaHelper::MvaFeatureVector &featureVector) const
+void ND_TrainedVertexSelectionAlgorithm::AddEventFeaturesToVector(const EventFeatureInfo &eventFeatureInfo, LArMvaHelper::MvaFeatureVector &featureVector) const
 {
     featureVector.push_back(static_cast<double>(eventFeatureInfo.m_eventShoweryness));
     featureVector.push_back(static_cast<double>(eventFeatureInfo.m_eventEnergy));
@@ -425,7 +425,7 @@ void TrainedVertexSelectionAlgorithm::AddEventFeaturesToVector(const EventFeatur
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-void TrainedVertexSelectionAlgorithm::PopulateVertexFeatureInfoMap(const BeamConstants &beamConstants, const ClusterListMap &clusterListMap,
+void ND_TrainedVertexSelectionAlgorithm::PopulateVertexFeatureInfoMap(const BeamConstants &beamConstants, const ClusterListMap &clusterListMap,
     const SlidingFitDataListMap &slidingFitDataListMap, const ShowerClusterListMap &showerClusterListMap, const KDTreeMap &kdTreeMap,
     const Vertex *const pVertex, VertexFeatureInfoMap &vertexFeatureInfoMap) const
 {
@@ -440,28 +440,28 @@ void TrainedVertexSelectionAlgorithm::PopulateVertexFeatureInfoMap(const BeamCon
 
     std::cout << "enegy kick" << std::endl;
        
-    const double energyKick(LArMvaHelper::CalculateFeaturesOfType<EnergyKickFeatureTool>(m_featureToolVector, this, pVertex,
+    const double energyKick(LArMvaHelper::CalculateFeaturesOfType<ND_EnergyKickFeatureTool>(m_featureToolVector, this, pVertex,
         slidingFitDataListMap, clusterListMap, kdTreeMap, showerClusterListMap, beamDeweighting, bestFastScore)
                                 .at(0)
                                 .Get());
 
     std::cout << "local asymmetry" << std::endl;
 
-    const double localAsymmetry(LArMvaHelper::CalculateFeaturesOfType<LocalAsymmetryFeatureTool>(m_featureToolVector, this, pVertex,
+    const double localAsymmetry(LArMvaHelper::CalculateFeaturesOfType<ND_LocalAsymmetryFeatureTool>(m_featureToolVector, this, pVertex,
         slidingFitDataListMap, clusterListMap, kdTreeMap, showerClusterListMap, beamDeweighting, bestFastScore)
                                     .at(0)
                                     .Get());
 
     std::cout << "global asymmetry" << std::endl;
 
-    const double globalAsymmetry(LArMvaHelper::CalculateFeaturesOfType<GlobalAsymmetryFeatureTool>(m_featureToolVector, this, pVertex,
+    const double globalAsymmetry(LArMvaHelper::CalculateFeaturesOfType<ND_GlobalAsymmetryFeatureTool>(m_featureToolVector, this, pVertex,
         slidingFitDataListMap, clusterListMap, kdTreeMap, showerClusterListMap, beamDeweighting, bestFastScore)
                                      .at(0)
                                      .Get());
 
     std::cout << "shower asymmetry" << std::endl;
 
-    const double showerAsymmetry(LArMvaHelper::CalculateFeaturesOfType<ShowerAsymmetryFeatureTool>(m_featureToolVector, this, pVertex,
+    const double showerAsymmetry(LArMvaHelper::CalculateFeaturesOfType<ND_ShowerAsymmetryFeatureTool>(m_featureToolVector, this, pVertex,
         slidingFitDataListMap, clusterListMap, kdTreeMap, showerClusterListMap, beamDeweighting, bestFastScore)
                                      .at(0)
                                      .Get());
@@ -475,7 +475,7 @@ void TrainedVertexSelectionAlgorithm::PopulateVertexFeatureInfoMap(const BeamCon
 
     if (!m_legacyVariables)
     {
-        dEdxAsymmetry = LArMvaHelper::CalculateFeaturesOfType<EnergyDepositionAsymmetryFeatureTool>(m_featureToolVector, this, pVertex,
+        dEdxAsymmetry = LArMvaHelper::CalculateFeaturesOfType<ND_EnergyDepositionAsymmetryFeatureTool>(m_featureToolVector, this, pVertex,
             slidingFitDataListMap, clusterListMap, kdTreeMap, showerClusterListMap, beamDeweighting, bestFastScore)
                             .at(0)
                             .Get();
@@ -496,7 +496,7 @@ void TrainedVertexSelectionAlgorithm::PopulateVertexFeatureInfoMap(const BeamCon
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-void TrainedVertexSelectionAlgorithm::PopulateInitialScoreList(
+void ND_TrainedVertexSelectionAlgorithm::PopulateInitialScoreList(
     VertexFeatureInfoMap &vertexFeatureInfoMap, const Vertex *const pVertex, VertexScoreList &initialScoreList) const
 {
     VertexFeatureInfo vertexFeatureInfo = vertexFeatureInfoMap.at(pVertex);
@@ -512,7 +512,7 @@ void TrainedVertexSelectionAlgorithm::PopulateInitialScoreList(
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-void TrainedVertexSelectionAlgorithm::GetBestRegionVertices(VertexScoreList &initialScoreList, VertexVector &bestRegionVertices) const
+void ND_TrainedVertexSelectionAlgorithm::GetBestRegionVertices(VertexScoreList &initialScoreList, VertexVector &bestRegionVertices) const
 {
     std::sort(initialScoreList.begin(), initialScoreList.end());
 
@@ -545,7 +545,7 @@ void TrainedVertexSelectionAlgorithm::GetBestRegionVertices(VertexScoreList &ini
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-void TrainedVertexSelectionAlgorithm::ProduceTrainingSets(const VertexVector &vertexVector, const VertexVector &bestRegionVertices,
+void ND_TrainedVertexSelectionAlgorithm::ProduceTrainingSets(const VertexVector &vertexVector, const VertexVector &bestRegionVertices,
     VertexFeatureInfoMap &vertexFeatureInfoMap, const LArMvaHelper::MvaFeatureVector &eventFeatureList, const KDTreeMap &kdTreeMap) const
 {
     if (vertexVector.empty())
@@ -585,7 +585,7 @@ void TrainedVertexSelectionAlgorithm::ProduceTrainingSets(const VertexVector &ve
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-void TrainedVertexSelectionAlgorithm::CalculateRPhiScores(
+void ND_TrainedVertexSelectionAlgorithm::CalculateRPhiScores(
     VertexVector &vertexVector, VertexFeatureInfoMap &vertexFeatureInfoMap, const KDTreeMap &kdTreeMap) const
 {
     float bestFastScore(-std::numeric_limits<float>::max());
@@ -593,7 +593,7 @@ void TrainedVertexSelectionAlgorithm::CalculateRPhiScores(
     for (auto iter = vertexVector.begin(); iter != vertexVector.end(); /* no increment */)
     {
         VertexFeatureInfo &vertexFeatureInfo = vertexFeatureInfoMap.at(*iter);
-        vertexFeatureInfo.m_rPhiFeature = static_cast<float>(LArMvaHelper::CalculateFeaturesOfType<RPhiFeatureTool>(m_featureToolVector, this,
+        vertexFeatureInfo.m_rPhiFeature = static_cast<float>(LArMvaHelper::CalculateFeaturesOfType<ND_RPhiFeatureTool>(m_featureToolVector, this,
             *iter, SlidingFitDataListMap(), ClusterListMap(), kdTreeMap, ShowerClusterListMap(), vertexFeatureInfo.m_beamDeweighting, bestFastScore)
                                                                  .at(0)
                                                                  .Get());
@@ -608,7 +608,7 @@ void TrainedVertexSelectionAlgorithm::CalculateRPhiScores(
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-std::string TrainedVertexSelectionAlgorithm::GetInteractionType() const
+std::string ND_TrainedVertexSelectionAlgorithm::GetInteractionType() const
 {
     // Extract input collections
     const MCParticleList *pMCParticleList(nullptr);
@@ -642,7 +642,7 @@ std::string TrainedVertexSelectionAlgorithm::GetInteractionType() const
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-const pandora::Vertex *TrainedVertexSelectionAlgorithm::ProduceTrainingExamples(const VertexVector &vertexVector,
+const pandora::Vertex *ND_TrainedVertexSelectionAlgorithm::ProduceTrainingExamples(const VertexVector &vertexVector,
     const VertexFeatureInfoMap &vertexFeatureInfoMap, std::bernoulli_distribution &coinFlip, std::mt19937 &generator,
     const std::string &interactionType, const std::string &trainingOutputFile, const LArMvaHelper::MvaFeatureVector &eventFeatureList,
     const KDTreeMap &kdTreeMap, const float maxRadius, const bool useRPhi) const
@@ -702,7 +702,7 @@ const pandora::Vertex *TrainedVertexSelectionAlgorithm::ProduceTrainingExamples(
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-void TrainedVertexSelectionAlgorithm::GetSharedFeatures(
+void ND_TrainedVertexSelectionAlgorithm::GetSharedFeatures(
     const Vertex *const pVertex1, const Vertex *const pVertex2, const KDTreeMap &kdTreeMap, float &separation, float &axisHits) const
 {
     separation = (pVertex1->GetPosition() - pVertex2->GetPosition()).GetMagnitude();
@@ -721,7 +721,7 @@ void TrainedVertexSelectionAlgorithm::GetSharedFeatures(
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-void TrainedVertexSelectionAlgorithm::IncrementSharedAxisValues(
+void ND_TrainedVertexSelectionAlgorithm::IncrementSharedAxisValues(
     const CartesianVector pos1, const CartesianVector pos2, HitKDTree2D &kdTree, float &axisHits) const
 {
     if (pos1 == pos2)
@@ -761,7 +761,7 @@ void TrainedVertexSelectionAlgorithm::IncrementSharedAxisValues(
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-bool TrainedVertexSelectionAlgorithm::IsHitInBox(const CartesianVector &hitPos, const CartesianVector &point1,
+bool ND_TrainedVertexSelectionAlgorithm::IsHitInBox(const CartesianVector &hitPos, const CartesianVector &point1,
     const CartesianVector &point2, const CartesianVector &point3, const CartesianVector &point4) const
 {
     bool b1 = std::signbit(((point2 - point1).GetCrossProduct(point2 - hitPos)).GetY());
@@ -778,7 +778,7 @@ bool TrainedVertexSelectionAlgorithm::IsHitInBox(const CartesianVector &hitPos, 
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-void TrainedVertexSelectionAlgorithm::GetBestVertex(const VertexVector &vertexVector, const Vertex *&pBestVertex, float &bestVertexDr) const
+void ND_TrainedVertexSelectionAlgorithm::GetBestVertex(const VertexVector &vertexVector, const Vertex *&pBestVertex, float &bestVertexDr) const
 {
     // Extract input collections
     const MCParticleList *pMCParticleList(nullptr);
@@ -821,7 +821,7 @@ void TrainedVertexSelectionAlgorithm::GetBestVertex(const VertexVector &vertexVe
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-void TrainedVertexSelectionAlgorithm::AddVertexFeaturesToVector(
+void ND_TrainedVertexSelectionAlgorithm::AddVertexFeaturesToVector(
     const VertexFeatureInfo &vertexFeatureInfo, LArMvaHelper::MvaFeatureVector &featureVector, const bool useRPhi) const
 {
     if (this->IsBeamModeOn())
@@ -843,7 +843,7 @@ void TrainedVertexSelectionAlgorithm::AddVertexFeaturesToVector(
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-void TrainedVertexSelectionAlgorithm::AddSharedFeaturesToVector(
+void ND_TrainedVertexSelectionAlgorithm::AddSharedFeaturesToVector(
     const VertexSharedFeatureInfo &vertexSharedFeatureInfo, LArMvaHelper::MvaFeatureVector &featureVector) const
 {
     featureVector.push_back(static_cast<double>(vertexSharedFeatureInfo.m_separation));
@@ -852,7 +852,7 @@ void TrainedVertexSelectionAlgorithm::AddSharedFeaturesToVector(
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-void TrainedVertexSelectionAlgorithm::PopulateFinalVertexScoreList(const VertexFeatureInfoMap &vertexFeatureInfoMap,
+void ND_TrainedVertexSelectionAlgorithm::PopulateFinalVertexScoreList(const VertexFeatureInfoMap &vertexFeatureInfoMap,
     const Vertex *const pFavouriteVertex, const VertexVector &vertexVector, VertexScoreList &finalVertexScoreList) const
 {
     if (pFavouriteVertex)
@@ -873,7 +873,7 @@ void TrainedVertexSelectionAlgorithm::PopulateFinalVertexScoreList(const VertexF
 //------------------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-StatusCode TrainedVertexSelectionAlgorithm::ReadSettings(const TiXmlHandle xmlHandle)
+StatusCode ND_TrainedVertexSelectionAlgorithm::ReadSettings(const TiXmlHandle xmlHandle)
 {
     AlgorithmToolVector algorithmToolVector;
     PANDORA_RETURN_RESULT_IF(STATUS_CODE_SUCCESS, !=, XmlHelper::ProcessAlgorithmToolList(*this, xmlHandle, "FeatureTools", algorithmToolVector));
@@ -897,7 +897,7 @@ StatusCode TrainedVertexSelectionAlgorithm::ReadSettings(const TiXmlHandle xmlHa
 
     if (m_trainingSetMode && (m_trainingOutputFileRegion.empty() || m_trainingOutputFileVertex.empty()))
     {
-        std::cout << "TrainedVertexSelectionAlgorithm: TrainingOutputFileRegion and TrainingOutputFileVertex are required for training set "
+        std::cout << "ND_TrainedVertexSelectionAlgorithm: TrainingOutputFileRegion and TrainingOutputFileVertex are required for training set "
                   << "mode" << std::endl;
         return STATUS_CODE_INVALID_PARAMETER;
     }
@@ -909,7 +909,7 @@ StatusCode TrainedVertexSelectionAlgorithm::ReadSettings(const TiXmlHandle xmlHa
 
     if (m_trainingSetMode && (m_mcParticleListName.empty() || m_caloHitListName.empty()))
     {
-        std::cout << "TrainedVertexSelectionAlgorithm: MCParticleListName and CaloHitListName are required for training set mode" << std::endl;
+        std::cout << "ND_TrainedVertexSelectionAlgorithm: MCParticleListName and CaloHitListName are required for training set mode" << std::endl;
         return STATUS_CODE_INVALID_PARAMETER;
     }
 
@@ -970,10 +970,10 @@ StatusCode TrainedVertexSelectionAlgorithm::ReadSettings(const TiXmlHandle xmlHa
     PANDORA_RETURN_RESULT_IF_AND_IF(STATUS_CODE_SUCCESS, STATUS_CODE_NOT_FOUND, !=, XmlHelper::ReadValue(xmlHandle, "LegacyVariables", m_legacyVariables));
 
     if (m_trainingSetMode && m_legacyEventShapes)
-        std::cout << "TrainedVertexSelectionAlgorithm: WARNING -- Producing training sample using incorrect legacy event shapes, consider turning LegacyEventShapes off"
+        std::cout << "ND_TrainedVertexSelectionAlgorithm: WARNING -- Producing training sample using incorrect legacy event shapes, consider turning LegacyEventShapes off"
                   << std::endl;
 
-    return VertexSelectionBaseAlgorithm::ReadSettings(xmlHandle);
+    return ND_VertexSelectionBaseAlgorithm::ReadSettings(xmlHandle);
 }
 
 } // namespace lar_content

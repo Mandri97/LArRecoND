@@ -1,12 +1,12 @@
 /**
- *  @file   larpandoracontent/LArVertex/RPhiFeatureTool.cc
+ *  @file   larpandoracontent/LArVertex/ND_RPhiFeatureTool.cc
  *
  *  @brief  Implementation of the r/phi feature tool class.
  *
  *  $Log: $
  */
 
-#include "larpandoracontent/LArVertex/RPhiFeatureTool.h"
+#include "vertex/LArNDRPhiFeatureTool.h"
 #include "Pandora/AlgorithmHeaders.h"
 #include "larpandoracontent/LArHelpers/LArClusterHelper.h"
 #include "larpandoracontent/LArHelpers/LArGeometryHelper.h"
@@ -18,7 +18,7 @@ using namespace pandora;
 namespace lar_content
 {
 
-RPhiFeatureTool::RPhiFeatureTool() :
+ND_RPhiFeatureTool::ND_RPhiFeatureTool() :
     m_fastScoreCheck(true),
     m_fastScoreOnly(false),
     m_fullScore(false),
@@ -35,10 +35,10 @@ RPhiFeatureTool::RPhiFeatureTool() :
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-void RPhiFeatureTool::Run(LArMvaHelper::MvaFeatureVector &featureVector, const VertexSelectionBaseAlgorithm *const pAlgorithm,
-    const Vertex *const pVertex, const VertexSelectionBaseAlgorithm::SlidingFitDataListMap &,
-    const VertexSelectionBaseAlgorithm::ClusterListMap &, const VertexSelectionBaseAlgorithm::KDTreeMap &kdTreeMap,
-    const VertexSelectionBaseAlgorithm::ShowerClusterListMap &, const float beamDeweightingScore, float &bestFastScore)
+void ND_RPhiFeatureTool::Run(LArMvaHelper::MvaFeatureVector &featureVector, const ND_VertexSelectionBaseAlgorithm *const pAlgorithm,
+    const Vertex *const pVertex, const ND_VertexSelectionBaseAlgorithm::SlidingFitDataListMap &,
+    const ND_VertexSelectionBaseAlgorithm::ClusterListMap &, const ND_VertexSelectionBaseAlgorithm::KDTreeMap &kdTreeMap,
+    const ND_VertexSelectionBaseAlgorithm::ShowerClusterListMap &, const float beamDeweightingScore, float &bestFastScore)
 {
     if (PandoraContentApi::GetSettings(*pAlgorithm)->ShouldDisplayAlgorithmInfo())
         std::cout << "----> Running Algorithm Tool: " << this->GetInstanceName() << ", " << this->GetType() << std::endl;
@@ -79,7 +79,7 @@ void RPhiFeatureTool::Run(LArMvaHelper::MvaFeatureVector &featureVector, const V
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-float RPhiFeatureTool::GetFastScore(const KernelEstimate &kernelEstimateU, const KernelEstimate &kernelEstimateV, const KernelEstimate &kernelEstimateW) const
+float ND_RPhiFeatureTool::GetFastScore(const KernelEstimate &kernelEstimateU, const KernelEstimate &kernelEstimateV, const KernelEstimate &kernelEstimateW) const
 {
     Histogram histogramU(m_fastHistogramNPhiBins, m_fastHistogramPhiMin, m_fastHistogramPhiMax);
     Histogram histogramV(m_fastHistogramNPhiBins, m_fastHistogramPhiMin, m_fastHistogramPhiMax);
@@ -115,7 +115,7 @@ float RPhiFeatureTool::GetFastScore(const KernelEstimate &kernelEstimateU, const
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-float RPhiFeatureTool::GetMidwayScore(const KernelEstimate &kernelEstimateU, const KernelEstimate &kernelEstimateV, const KernelEstimate &kernelEstimateW) const
+float ND_RPhiFeatureTool::GetMidwayScore(const KernelEstimate &kernelEstimateU, const KernelEstimate &kernelEstimateV, const KernelEstimate &kernelEstimateW) const
 {
     Histogram histogramU(m_fastHistogramNPhiBins, m_fastHistogramPhiMin, m_fastHistogramPhiMax);
     Histogram histogramV(m_fastHistogramNPhiBins, m_fastHistogramPhiMin, m_fastHistogramPhiMax);
@@ -145,7 +145,7 @@ float RPhiFeatureTool::GetMidwayScore(const KernelEstimate &kernelEstimateU, con
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-float RPhiFeatureTool::GetFullScore(const KernelEstimate &kernelEstimateU, const KernelEstimate &kernelEstimateV, const KernelEstimate &kernelEstimateW) const
+float ND_RPhiFeatureTool::GetFullScore(const KernelEstimate &kernelEstimateU, const KernelEstimate &kernelEstimateV, const KernelEstimate &kernelEstimateW) const
 {
     float figureOfMerit(0.f);
 
@@ -163,13 +163,13 @@ float RPhiFeatureTool::GetFullScore(const KernelEstimate &kernelEstimateU, const
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-void RPhiFeatureTool::FillKernelEstimate(const Vertex *const pVertex, const HitType hitType,
-    VertexSelectionBaseAlgorithm::HitKDTree2D &kdTree, KernelEstimate &kernelEstimate) const
+void ND_RPhiFeatureTool::FillKernelEstimate(const Vertex *const pVertex, const HitType hitType,
+    ND_VertexSelectionBaseAlgorithm::HitKDTree2D &kdTree, KernelEstimate &kernelEstimate) const
 {
     const CartesianVector vertexPosition2D(LArGeometryHelper::ProjectPosition(this->GetPandora(), pVertex->GetPosition(), hitType));
     KDTreeBox searchRegionHits = build_2d_kd_search_region(vertexPosition2D, m_maxHitVertexDisplacement1D, m_maxHitVertexDisplacement1D);
 
-    VertexSelectionBaseAlgorithm::HitKDNode2DList found;
+    ND_VertexSelectionBaseAlgorithm::HitKDNode2DList found;
     kdTree.search(searchRegionHits, found);
 
     for (const auto &hit : found)
@@ -195,7 +195,7 @@ void RPhiFeatureTool::FillKernelEstimate(const Vertex *const pVertex, const HitT
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-float RPhiFeatureTool::atan2Fast(const float y, const float x) const
+float ND_RPhiFeatureTool::atan2Fast(const float y, const float x) const
 {
     const float ONE_QTR_PI(0.25f * M_PI);
     const float THR_QTR_PI(0.75f * M_PI);
@@ -212,7 +212,7 @@ float RPhiFeatureTool::atan2Fast(const float y, const float x) const
 //------------------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-float RPhiFeatureTool::KernelEstimate::Sample(const float x) const
+float ND_RPhiFeatureTool::KernelEstimate::Sample(const float x) const
 {
     const ContributionList &contributionList(this->GetContributionList());
     ContributionList::const_iterator lowerIter(contributionList.lower_bound(x - 3.f * m_sigma));
@@ -233,14 +233,14 @@ float RPhiFeatureTool::KernelEstimate::Sample(const float x) const
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-void RPhiFeatureTool::KernelEstimate::AddContribution(const float x, const float weight)
+void ND_RPhiFeatureTool::KernelEstimate::AddContribution(const float x, const float weight)
 {
     m_contributionList.insert(ContributionList::value_type(x, weight));
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-StatusCode RPhiFeatureTool::ReadSettings(const TiXmlHandle xmlHandle)
+StatusCode ND_RPhiFeatureTool::ReadSettings(const TiXmlHandle xmlHandle)
 {
     PANDORA_RETURN_RESULT_IF_AND_IF(STATUS_CODE_SUCCESS, STATUS_CODE_NOT_FOUND, !=, XmlHelper::ReadValue(xmlHandle, "FastScoreCheck", m_fastScoreCheck));
 

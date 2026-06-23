@@ -1,5 +1,5 @@
 /**
- *  @file   larpandoracontent/LArVertex/VertexSelectionBaseAlgorithm.cc
+ *  @file   larpandoracontent/LArVertex/ND_VertexSelectionBaseAlgorithm.cc
  *
  *  @brief  Implementation of the vertex selection base algorithm class.
  *
@@ -12,14 +12,14 @@
 
 #include "larpandoracontent/LArUtility/KDTreeLinkerAlgoT.h"
 
-#include "larpandoracontent/LArVertex/VertexSelectionBaseAlgorithm.h"
+#include "vertex/LArNDVertexSelectionBaseAlgorithm.h"
 
 using namespace pandora;
 
 namespace lar_content
 {
 
-VertexSelectionBaseAlgorithm::VertexSelectionBaseAlgorithm() :
+ND_VertexSelectionBaseAlgorithm::ND_VertexSelectionBaseAlgorithm() :
     m_inputVertexListName(""),
     m_replaceCurrentVertexList(true),
     m_beamMode(true),
@@ -38,7 +38,7 @@ VertexSelectionBaseAlgorithm::VertexSelectionBaseAlgorithm() :
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-void VertexSelectionBaseAlgorithm::FilterVertexList(const VertexList *const pInputVertexList, HitKDTree2D &kdTreeU, HitKDTree2D &kdTreeV,
+void ND_VertexSelectionBaseAlgorithm::FilterVertexList(const VertexList *const pInputVertexList, HitKDTree2D &kdTreeU, HitKDTree2D &kdTreeV,
     HitKDTree2D &kdTreeW, VertexVector &filteredVertices) const
 {
     for (const Vertex *const pVertex : *pInputVertexList)
@@ -63,7 +63,7 @@ void VertexSelectionBaseAlgorithm::FilterVertexList(const VertexList *const pInp
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-void VertexSelectionBaseAlgorithm::GetBeamConstants(const VertexVector &vertexVector, BeamConstants &beamConstants) const
+void ND_VertexSelectionBaseAlgorithm::GetBeamConstants(const VertexVector &vertexVector, BeamConstants &beamConstants) const
 {
     if (!m_beamMode)
         return;
@@ -89,7 +89,7 @@ void VertexSelectionBaseAlgorithm::GetBeamConstants(const VertexVector &vertexVe
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-void VertexSelectionBaseAlgorithm::GetClusterLists(
+void ND_VertexSelectionBaseAlgorithm::GetClusterLists(
     const StringVector &inputClusterListNames, ClusterList &clusterListU, ClusterList &clusterListV, ClusterList &clusterListW) const
 {
     for (const std::string &clusterListName : inputClusterListNames)
@@ -118,7 +118,7 @@ void VertexSelectionBaseAlgorithm::GetClusterLists(
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-void VertexSelectionBaseAlgorithm::CalculateClusterSlidingFits(const ClusterList &inputClusterList, const unsigned int minClusterCaloHits,
+void ND_VertexSelectionBaseAlgorithm::CalculateClusterSlidingFits(const ClusterList &inputClusterList, const unsigned int minClusterCaloHits,
     const unsigned int slidingFitWindow, SlidingFitDataList &slidingFitDataList) const
 {
     const float slidingFitPitch(LArGeometryHelper::GetWireZPitch(this->GetPandora()));
@@ -140,7 +140,7 @@ void VertexSelectionBaseAlgorithm::CalculateClusterSlidingFits(const ClusterList
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-StatusCode VertexSelectionBaseAlgorithm::Run()
+StatusCode ND_VertexSelectionBaseAlgorithm::Run()
 {
     const VertexList *pInputVertexList(NULL);
 
@@ -157,7 +157,7 @@ StatusCode VertexSelectionBaseAlgorithm::Run()
     if (!pInputVertexList || pInputVertexList->empty())
     {
         if (PandoraContentApi::GetSettings(*this)->ShouldDisplayAlgorithmInfo())
-            std::cout << "VertexSelectionBaseAlgorithm: unable to find current vertex list " << std::endl;
+            std::cout << "ND_VertexSelectionBaseAlgorithm: unable to find current vertex list " << std::endl;
 
         return STATUS_CODE_SUCCESS;
     }
@@ -193,7 +193,7 @@ StatusCode VertexSelectionBaseAlgorithm::Run()
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-void VertexSelectionBaseAlgorithm::InitializeKDTrees(HitKDTree2D &kdTreeU, HitKDTree2D &kdTreeV, HitKDTree2D &kdTreeW) const
+void ND_VertexSelectionBaseAlgorithm::InitializeKDTrees(HitKDTree2D &kdTreeU, HitKDTree2D &kdTreeV, HitKDTree2D &kdTreeW) const
 {
     for (const std::string &caloHitListName : m_inputCaloHitListNames)
     {
@@ -204,7 +204,7 @@ void VertexSelectionBaseAlgorithm::InitializeKDTrees(HitKDTree2D &kdTreeU, HitKD
         if (!pCaloHitList || pCaloHitList->empty())
         {
             if (PandoraContentApi::GetSettings(*this)->ShouldDisplayAlgorithmInfo())
-                std::cout << "VertexSelectionBaseAlgorithm: unable to find calo hit list " << caloHitListName << std::endl;
+                std::cout << "ND_VertexSelectionBaseAlgorithm: unable to find calo hit list " << caloHitListName << std::endl;
 
             continue;
         }
@@ -227,7 +227,7 @@ void VertexSelectionBaseAlgorithm::InitializeKDTrees(HitKDTree2D &kdTreeU, HitKD
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-bool VertexSelectionBaseAlgorithm::IsVertexOnHit(const Vertex *const pVertex, const HitType hitType, HitKDTree2D &kdTree) const
+bool ND_VertexSelectionBaseAlgorithm::IsVertexOnHit(const Vertex *const pVertex, const HitType hitType, HitKDTree2D &kdTree) const
 {
     const CartesianVector vertexPosition2D(LArGeometryHelper::ProjectPosition(this->GetPandora(), pVertex->GetPosition(), hitType));
     KDTreeBox searchRegionHits = build_2d_kd_search_region(vertexPosition2D, m_maxOnHitDisplacement, m_maxOnHitDisplacement);
@@ -240,12 +240,12 @@ bool VertexSelectionBaseAlgorithm::IsVertexOnHit(const Vertex *const pVertex, co
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-bool VertexSelectionBaseAlgorithm::IsVertexInGap(const Vertex *const pVertex, const HitType hitType) const
+bool ND_VertexSelectionBaseAlgorithm::IsVertexInGap(const Vertex *const pVertex, const HitType hitType) const
 {
     if (!m_useDetectorGaps)
         return false;
 
-    // Caste this into the void
+    // TODO: Cast this into the void
     (void) hitType;
 
     return LArGeometryHelper::IsInGap3D(this->GetPandora(), pVertex->GetPosition(), TPC_3D, m_gapTolerance);
@@ -253,7 +253,7 @@ bool VertexSelectionBaseAlgorithm::IsVertexInGap(const Vertex *const pVertex, co
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-float VertexSelectionBaseAlgorithm::GetVertexEnergy(const Vertex *const pVertex, const KDTreeMap &kdTreeMap) const
+float ND_VertexSelectionBaseAlgorithm::GetVertexEnergy(const Vertex *const pVertex, const KDTreeMap &kdTreeMap) const
 {
     float totalEnergy(0.f);
 
@@ -271,7 +271,7 @@ float VertexSelectionBaseAlgorithm::GetVertexEnergy(const Vertex *const pVertex,
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-float VertexSelectionBaseAlgorithm::VertexHitEnergy(const Vertex *const pVertex, const HitType hitType, HitKDTree2D &kdTree) const
+float ND_VertexSelectionBaseAlgorithm::VertexHitEnergy(const Vertex *const pVertex, const HitType hitType, HitKDTree2D &kdTree) const
 {
     const CartesianVector vertexPosition2D(LArGeometryHelper::ProjectPosition(this->GetPandora(), pVertex->GetPosition(), hitType));
     KDTreeBox searchRegionHits = build_2d_kd_search_region(vertexPosition2D, m_maxOnHitDisplacement, m_maxOnHitDisplacement);
@@ -296,7 +296,7 @@ float VertexSelectionBaseAlgorithm::VertexHitEnergy(const Vertex *const pVertex,
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-void VertexSelectionBaseAlgorithm::SelectTopScoreVertices(VertexScoreList &vertexScoreList, VertexList &selectedVertexList) const
+void ND_VertexSelectionBaseAlgorithm::SelectTopScoreVertices(VertexScoreList &vertexScoreList, VertexList &selectedVertexList) const
 {
     float bestScore(0.f);
     std::sort(vertexScoreList.begin(), vertexScoreList.end());
@@ -324,7 +324,7 @@ void VertexSelectionBaseAlgorithm::SelectTopScoreVertices(VertexScoreList &verte
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-bool VertexSelectionBaseAlgorithm::AcceptVertexLocation(const Vertex *const pVertex, const VertexList &selectedVertexList) const
+bool ND_VertexSelectionBaseAlgorithm::AcceptVertexLocation(const Vertex *const pVertex, const VertexList &selectedVertexList) const
 {
     const CartesianVector &position(pVertex->GetPosition());
     const float minCandidateDisplacementSquared(m_minCandidateDisplacement * m_minCandidateDisplacement);
@@ -343,7 +343,7 @@ bool VertexSelectionBaseAlgorithm::AcceptVertexLocation(const Vertex *const pVer
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-bool VertexSelectionBaseAlgorithm::SortByVertexZPosition(const pandora::Vertex *const pLhs, const pandora::Vertex *const pRhs)
+bool ND_VertexSelectionBaseAlgorithm::SortByVertexZPosition(const pandora::Vertex *const pLhs, const pandora::Vertex *const pRhs)
 {
     const CartesianVector deltaPosition(pRhs->GetPosition() - pLhs->GetPosition());
 
@@ -359,7 +359,7 @@ bool VertexSelectionBaseAlgorithm::SortByVertexZPosition(const pandora::Vertex *
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-VertexSelectionBaseAlgorithm::SlidingFitData::SlidingFitData(const pandora::Cluster *const pCluster, const int slidingFitWindow, const float slidingFitPitch) :
+ND_VertexSelectionBaseAlgorithm::SlidingFitData::SlidingFitData(const pandora::Cluster *const pCluster, const int slidingFitWindow, const float slidingFitPitch) :
     m_minLayerDirection(0.f, 0.f, 0.f),
     m_maxLayerDirection(0.f, 0.f, 0.f),
     m_minLayerPosition(0.f, 0.f, 0.f),
@@ -375,7 +375,7 @@ VertexSelectionBaseAlgorithm::SlidingFitData::SlidingFitData(const pandora::Clus
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-VertexSelectionBaseAlgorithm::ShowerCluster::ShowerCluster(const pandora::ClusterList &clusterList, const int slidingFitWindow, const float slidingFitPitch) :
+ND_VertexSelectionBaseAlgorithm::ShowerCluster::ShowerCluster(const pandora::ClusterList &clusterList, const int slidingFitWindow, const float slidingFitPitch) :
     m_clusterList(clusterList),
     m_coordinateVector(this->GetClusterListCoordinateVector(clusterList)),
     m_twoDSlidingFitResult(&m_coordinateVector, slidingFitWindow, slidingFitPitch)
@@ -384,7 +384,7 @@ VertexSelectionBaseAlgorithm::ShowerCluster::ShowerCluster(const pandora::Cluste
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-pandora::CartesianPointVector VertexSelectionBaseAlgorithm::ShowerCluster::GetClusterListCoordinateVector(const pandora::ClusterList &clusterList) const
+pandora::CartesianPointVector ND_VertexSelectionBaseAlgorithm::ShowerCluster::GetClusterListCoordinateVector(const pandora::ClusterList &clusterList) const
 {
     CartesianPointVector coordinateVector;
 
@@ -403,7 +403,7 @@ pandora::CartesianPointVector VertexSelectionBaseAlgorithm::ShowerCluster::GetCl
 //------------------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-StatusCode VertexSelectionBaseAlgorithm::ReadSettings(const TiXmlHandle xmlHandle)
+StatusCode ND_VertexSelectionBaseAlgorithm::ReadSettings(const TiXmlHandle xmlHandle)
 {
     PANDORA_RETURN_RESULT_IF(STATUS_CODE_SUCCESS, !=, XmlHelper::ReadVectorOfValues(xmlHandle, "InputCaloHitListNames", m_inputCaloHitListNames));
 

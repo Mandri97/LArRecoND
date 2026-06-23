@@ -1,12 +1,12 @@
 /**
- *  @file   larpandoracontent/LArVertex/EnergyDepositionAsymmetryFeatureTool.cc
+ *  @file   larpandoracontent/LArVertex/ND_EnergyDepositionAsymmetryFeatureTool.cc
  *
  *  @brief  Implementation of the energy deposition asymmetry feature tool class.
  *
  *  $Log: $
  */
 
-#include "larpandoracontent/LArVertex/EnergyDepositionAsymmetryFeatureTool.h"
+#include "vertex/LArNDEnergyDepositionAsymmetryFeatureTool.h"
 #include "Pandora/AlgorithmHeaders.h"
 #include "larpandoracontent/LArHelpers/LArClusterHelper.h"
 #include "larpandoracontent/LArHelpers/LArGeometryHelper.h"
@@ -16,14 +16,14 @@ using namespace pandora;
 namespace lar_content
 {
 
-EnergyDepositionAsymmetryFeatureTool::EnergyDepositionAsymmetryFeatureTool() :
-    GlobalAsymmetryFeatureTool()
+ND_EnergyDepositionAsymmetryFeatureTool::ND_EnergyDepositionAsymmetryFeatureTool() :
+    ND_GlobalAsymmetryFeatureTool()
 {
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-float EnergyDepositionAsymmetryFeatureTool::CalculateAsymmetry(const bool useEnergyMetrics, const CartesianVector &vertexPosition2D,
+float ND_EnergyDepositionAsymmetryFeatureTool::CalculateAsymmetry(const bool useEnergyMetrics, const CartesianVector &vertexPosition2D,
     const ClusterVector &clusterVector, const CartesianVector &localWeightedDirectionSum) const
 {
     // Project every hit onto local event axis direction and record side of the projected vtx position on which it falls
@@ -103,9 +103,9 @@ float EnergyDepositionAsymmetryFeatureTool::CalculateAsymmetry(const bool useEne
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-StatusCode EnergyDepositionAsymmetryFeatureTool::ReadSettings(const TiXmlHandle xmlHandle)
+StatusCode ND_EnergyDepositionAsymmetryFeatureTool::ReadSettings(const TiXmlHandle xmlHandle)
 {
-    return GlobalAsymmetryFeatureTool::ReadSettings(xmlHandle);
+    return ND_GlobalAsymmetryFeatureTool::ReadSettings(xmlHandle);
 }
 
 } // namespace lar_content

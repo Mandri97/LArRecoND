@@ -1,5 +1,5 @@
 /**
- *  @file   larpandoracontent/LArVertex/HitAngleVertexSelectionAlgorithm.cc
+ *  @file   larpandoracontent/LArVertex/ND_HitAngleVertexSelectionAlgorithm.cc
  *
  *  @brief  Implementation of the hit angle vertex selection algorithm class.
  *
@@ -9,22 +9,22 @@
 
 #include "larpandoracontent/LArHelpers/LArMvaHelper.h"
 
-#include "larpandoracontent/LArVertex/RPhiFeatureTool.h"
+#include "vertex/LArNDRPhiFeatureTool.h"
 
-#include "larpandoracontent/LArVertex/HitAngleVertexSelectionAlgorithm.h"
+#include "vertex/LArNDHitAngleVertexSelectionAlgorithm.h"
 
 using namespace pandora;
 
 namespace lar_content
 {
 
-HitAngleVertexSelectionAlgorithm::HitAngleVertexSelectionAlgorithm()
+ND_HitAngleVertexSelectionAlgorithm::ND_HitAngleVertexSelectionAlgorithm()
 {
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-void HitAngleVertexSelectionAlgorithm::GetVertexScoreList(const VertexVector &vertexVector, const BeamConstants &beamConstants,
+void ND_HitAngleVertexSelectionAlgorithm::GetVertexScoreList(const VertexVector &vertexVector, const BeamConstants &beamConstants,
     HitKDTree2D &kdTreeU, HitKDTree2D &kdTreeV, HitKDTree2D &kdTreeW, VertexScoreList &vertexScoreList) const
 {
     const KDTreeMap kdTreeMap{{TPC_VIEW_U, kdTreeU}, {TPC_VIEW_V, kdTreeV}, {TPC_VIEW_W, kdTreeW}};
@@ -34,7 +34,7 @@ void HitAngleVertexSelectionAlgorithm::GetVertexScoreList(const VertexVector &ve
     {
         const float beamDeweightingScore(this->IsBeamModeOn() ? std::exp(this->GetBeamDeweightingScore(beamConstants, pVertex)) : 1.f);
 
-        const float rPhiScore(LArMvaHelper::CalculateFeaturesOfType<RPhiFeatureTool>(m_featureToolVector, this, pVertex,
+        const float rPhiScore(LArMvaHelper::CalculateFeaturesOfType<ND_RPhiFeatureTool>(m_featureToolVector, this, pVertex,
             SlidingFitDataListMap(), ClusterListMap(), kdTreeMap, ShowerClusterListMap(), beamDeweightingScore, bestFastScore)
                                   .at(0)
                                   .Get());
@@ -46,7 +46,7 @@ void HitAngleVertexSelectionAlgorithm::GetVertexScoreList(const VertexVector &ve
 //------------------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-StatusCode HitAngleVertexSelectionAlgorithm::ReadSettings(const TiXmlHandle xmlHandle)
+StatusCode ND_HitAngleVertexSelectionAlgorithm::ReadSettings(const TiXmlHandle xmlHandle)
 {
     AlgorithmToolVector algorithmToolVector;
     PANDORA_RETURN_RESULT_IF(STATUS_CODE_SUCCESS, !=, XmlHelper::ProcessAlgorithmToolList(*this, xmlHandle, "FeatureTools", algorithmToolVector));
@@ -54,7 +54,7 @@ StatusCode HitAngleVertexSelectionAlgorithm::ReadSettings(const TiXmlHandle xmlH
     for (AlgorithmTool *const pAlgorithmTool : algorithmToolVector)
         PANDORA_RETURN_RESULT_IF(STATUS_CODE_SUCCESS, !=, LArMvaHelper::AddFeatureToolToVector(pAlgorithmTool, m_featureToolVector));
 
-    return VertexSelectionBaseAlgorithm::ReadSettings(xmlHandle);
+    return ND_VertexSelectionBaseAlgorithm::ReadSettings(xmlHandle);
 }
 
 } // namespace lar_content

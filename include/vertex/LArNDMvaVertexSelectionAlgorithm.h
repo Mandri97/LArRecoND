@@ -5,8 +5,8 @@
  *
  *  $Log: $
  */
-#ifndef LAR_MVA_VERTEX_SELECTION_ALGORITHM_H
-#define LAR_MVA_VERTEX_SELECTION_ALGORITHM_H 1
+#ifndef LAR_ND_MVA_VERTEX_SELECTION_ALGORITHM_H
+#define LAR_ND_MVA_VERTEX_SELECTION_ALGORITHM_H 1
 
 #include "Api/PandoraContentApi.h"
 
@@ -16,7 +16,7 @@
 
 #include "larpandoracontent/LArHelpers/LArMCParticleHelper.h"
 
-#include "larpandoracontent/LArVertex/TrainedVertexSelectionAlgorithm.h"
+#include "vertex/LArNDTrainedVertexSelectionAlgorithm.h"
 
 #include <random>
 
@@ -34,13 +34,13 @@ class KDTreeNodeInfoT;
  *  @brief  MvaVertexSelectionAlgorithm class
  */
 template <typename T>
-class MvaVertexSelectionAlgorithm : public TrainedVertexSelectionAlgorithm
+class ND_MvaVertexSelectionAlgorithm : public ND_TrainedVertexSelectionAlgorithm
 {
 public:
     /**
      *  @brief  Default constructor
      */
-    MvaVertexSelectionAlgorithm();
+    ND_MvaVertexSelectionAlgorithm();
 
 protected:
     pandora::StatusCode ReadSettings(const pandora::TiXmlHandle xmlHandle);
@@ -82,8 +82,8 @@ private:
     T m_mvaVertex;                             ///< The vertex mva
 };
 
-typedef MvaVertexSelectionAlgorithm<AdaBoostDecisionTree> BdtVertexSelectionAlgorithm;
-typedef MvaVertexSelectionAlgorithm<SupportVectorMachine> SvmVertexSelectionAlgorithm;
+typedef ND_MvaVertexSelectionAlgorithm<AdaBoostDecisionTree> NDBdtVertexSelectionAlgorithm;
+typedef ND_MvaVertexSelectionAlgorithm<SupportVectorMachine> NDSvmVertexSelectionAlgorithm;
 
 } // namespace lar_content
 

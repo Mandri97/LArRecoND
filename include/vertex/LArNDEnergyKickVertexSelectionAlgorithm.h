@@ -5,10 +5,10 @@
  *
  *  $Log: $
  */
-#ifndef LAR_ENERGY_KICK_VERTEX_SELECTION_ALGORITHM_H
-#define LAR_ENERGY_KICK_VERTEX_SELECTION_ALGORITHM_H 1
+#ifndef LAR_ND_ENERGY_KICK_VERTEX_SELECTION_ALGORITHM_H
+#define LAR_ND_ENERGY_KICK_VERTEX_SELECTION_ALGORITHM_H 1
 
-#include "larpandoracontent/LArVertex/VertexSelectionBaseAlgorithm.h"
+#include "vertex/LArNDVertexSelectionBaseAlgorithm.h"
 
 namespace lar_content
 {
@@ -16,13 +16,13 @@ namespace lar_content
 /**
  *  @brief  EnergyKickVertexSelectionAlgorithm class
  */
-class EnergyKickVertexSelectionAlgorithm : public VertexSelectionBaseAlgorithm
+class ND_EnergyKickVertexSelectionAlgorithm : public ND_VertexSelectionBaseAlgorithm
 {
 public:
     /**
      *  @brief  Default constructor
      */
-    EnergyKickVertexSelectionAlgorithm();
+    ND_EnergyKickVertexSelectionAlgorithm();
 
 private:
     void GetVertexScoreList(const pandora::VertexVector &vertexVector, const BeamConstants &beamConstants, HitKDTree2D &kdTreeU,
