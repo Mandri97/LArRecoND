@@ -354,18 +354,20 @@ void LoadDetectorGaps(const pandora::Pandora *const pPrimaryPandora)
         }
     };
 
+    // These values are based on the estimated gaps between
+    // the 2x2 and ND-LAr TPC modules, which is ~5cm.
+    constexpr float minGap = 0.f;
+    constexpr float maxGap = 15.f;
+
     // INFO: Build the gaps in 2 steps:
-    //       1) Gaps that go the full length in X
-    //       2) Gaps that segment Z, to prevent overlaps.
+    //   1) Gaps that go the full length in X
+    //   2) Gaps that segment Z, to prevent overlaps.
     for (size_t i = 0; (i < maxXs.size()) && (i + 1 < minXs.size()); ++i)
     {
         const float gapWidth(minXs[i + 1] - maxXs[i]);
 
         // Skip negative gaps or giant gaps.
-        //
-        // TODO: Make max gap size configurable. Its mostly to avoid "Look there
-        // is a gap between TPCs 1 and 3!"....but its because TPC 2 is there.
-        if (gapWidth < 0.f || gapWidth > 30.f)
+        if (gapWidth < minGap || gapWidth > maxGap)
             continue;
 
         createBoxGap(minXs[i+1], maxXs[i], globalMinY, globalMaxY, globalMinZ, globalMaxZ);
@@ -377,7 +379,7 @@ void LoadDetectorGaps(const pandora::Pandora *const pPrimaryPandora)
         const float gapWidth(minZs[iz + 1] - maxZs[iz]);
 
         // Skip negative gaps or giant gaps.
-        if (gapWidth < 0.f || gapWidth > 30.f)
+        if (gapWidth < minGap || gapWidth > maxGap)
             continue;
 
         for (size_t ix = 0; ix < minXs.size(); ++ix){
