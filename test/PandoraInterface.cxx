@@ -336,7 +336,7 @@ void LoadDetectorGaps(const pandora::Pandora *const pPrimaryPandora)
     extractUnique(maxZs);
 
     // Utility lambda to crate a 3D Box Gap
-    auto createBoxGap = [&](const float x1, const float x2, const float y1, const float y2, const float z1, const float z2, const bool create2DGaps = false)
+    auto createBoxGap = [&](const float x1, const float x2, const float y1, const float y2, const float z1, const float z2)
     {
         PandoraApi::Geometry::BoxGap::Parameters gapParameters;
         gapParameters.m_vertex = CartesianVector(x1, y1, z1);
