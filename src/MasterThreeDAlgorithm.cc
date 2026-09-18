@@ -262,8 +262,6 @@ const Pandora *MasterThreeDAlgorithm::CreateWorkerInstance(
     larTPCParameters.m_isDriftInPositiveX = larTPC.IsDriftInPositiveX();
     PANDORA_THROW_RESULT_IF(STATUS_CODE_SUCCESS, !=, PandoraApi::Geometry::LArTPC::Create(*pPandora, larTPCParameters));
 
-    const float tpcMinX(larTPC.GetCenterX() - 0.5f * larTPC.GetWidthX()), tpcMaxX(larTPC.GetCenterX() + 0.5f * larTPC.GetWidthX());
-
     // The Gaps
     for (const DetectorGap *const pGap : gapList)
     {

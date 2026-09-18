@@ -37,9 +37,11 @@ make -j4 install
 
 # LArContent (Algorithms) without LibTorch (no DLVtx)
 cd $MY_TEST_AREA
-git clone https://github.com/PandoraPFA/LArContent.git
+#git clone https://github.com/PandoraPFA/LArContent.git
+git clone https://github.com/Mandri97/LArContent.git
 cd LArContent
-git checkout $PANDORA_LAR_CONTENT_VERSION
+git checkout feature/ThreeDAssociationAlgorithm
+#git checkout $PANDORA_LAR_CONTENT_VERSION
 mkdir build
 cd build
 cmake -DCMAKE_MODULE_PATH="$MY_TEST_AREA/PandoraPFA/cmakemodules;$ROOTSYS/etc/cmake" \
@@ -50,9 +52,10 @@ make -j4 install
 
 # LArRecoND
 cd $MY_TEST_AREA
-git clone https://github.com/PandoraPFA/LArRecoND.git
+git clone https://github.com/Mandri97/LArRecoND.git
 cd LArRecoND
-git checkout $PANDORA_LAR_RECO_ND_VERSION
+git checkout temp
+#git checkout $PANDORA_LAR_RECO_ND_VERSION
 mkdir build
 cd build
 cmake -DCMAKE_MODULE_PATH="$MY_TEST_AREA/PandoraPFA/cmakemodules;$ROOTSYS/etc/cmake" \

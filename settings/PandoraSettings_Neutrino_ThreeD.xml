@@ -31,7 +31,7 @@
         <InputCaloHitListName>CaloHitList3D</InputCaloHitListName>
     </algorithm>
     <algorithm type = "LArLayerSplitting"/>
-    <algorithm type = "LArLongitudinalAssociation"/>
+    <algorithm type = "LArThreeDAssociation"/>
     <algorithm type = "LArTransverseAssociation"/>
     <algorithm type = "LArLongitudinalExtension"/>
     <algorithm type = "LArTransverseExtension"/>

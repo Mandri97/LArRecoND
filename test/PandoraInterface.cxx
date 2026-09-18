@@ -336,7 +336,7 @@ void LoadDetectorGaps(const pandora::Pandora *const pPrimaryPandora)
     extractUnique(maxZs);
 
     // Utility lambda to crate a 3D Box Gap
-    auto createBoxGap = [&](const float x1, const float x2, const float y1, const float y2, const float z1, const float z2, const bool create2DGaps = false)
+    auto createBoxGap = [&](const float x1, const float x2, const float y1, const float y2, const float z1, const float z2)
     {
         PandoraApi::Geometry::BoxGap::Parameters gapParameters;
         gapParameters.m_vertex = CartesianVector(x1, y1, z1);
@@ -370,7 +370,7 @@ void LoadDetectorGaps(const pandora::Pandora *const pPrimaryPandora)
         if (gapWidth < minGap || gapWidth > maxGap)
             continue;
 
-        createBoxGap(minXs[i+1], maxXs[i], globalMinY, globalMaxY, globalMinZ, globalMaxZ);
+        createBoxGap(maxXs[i], minXs[i+1], globalMinY, globalMaxY, globalMinZ, globalMaxZ);
     }
 
     // Then, segmented Z gaps.
@@ -383,7 +383,7 @@ void LoadDetectorGaps(const pandora::Pandora *const pPrimaryPandora)
             continue;
 
         for (size_t ix = 0; ix < minXs.size(); ++ix){
-            createBoxGap(minXs[ix], maxXs[ix], globalMinY, globalMaxY, minZs[iz+1], maxZs[iz]);
+            createBoxGap(minXs[ix], maxXs[ix], globalMinY, globalMaxY, maxZs[iz], minZs[iz+1]);
         }
     }
 
