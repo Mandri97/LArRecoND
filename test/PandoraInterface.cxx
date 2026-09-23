@@ -102,7 +102,7 @@ int main(int argc, char *argv[])
 
         // INFO: Now that the geometry + transformation plugins are set up, we
         // can create the detector gaps in Pandora based on the loaded geometry.
-        LoadDetectorGaps(pPrimaryPandora);
+        //LoadDetectorGaps(pPrimaryPandora);
 
         ProcessEvents(parameters, pPrimaryPandora, simpleGeom);
     }
