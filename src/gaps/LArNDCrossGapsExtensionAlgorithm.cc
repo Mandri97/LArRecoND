@@ -144,52 +144,101 @@ bool LArNDCrossGapsExtensionAlgorithm::IsAssociated(const LArPointingCluster::Ve
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
-
-float LArNDCrossGapsExtensionAlgorithm::CalculateGapDeltaZ(const Pandora &pandora, const float minZ, const float maxZ, const HitType hitType)
+float LArNDCrossGapsExtensionAlgorithm::CalculateGapPathLength(const pandora::Pandora &pandora, const pandora::CartesianVector& startPoint,
+            const pandora::CartesianVector& endPoint, const pandora::HitType hitType)
 {
-    if (maxZ - minZ < std::numeric_limits<float>::epsilon())
-        throw StatusCodeException(STATUS_CODE_INVALID_PARAMETER);
+    const CartesianVector delta(endPoint - startPoint);
+    const float length(delta.GetMagnitude());
 
-    float gapDeltaZ(0.f);
+    if( length < std::numeric_limits<float>::epsilon())
+        return 0.f;
 
-    for (const DetectorGap *const pDetectorGap : pandora.GetGeometry()->GetDetectorGapList())
+    std::vector<std::pair<float, float>> intervals;
+
+    for( const DetectorGap *const pDetectorGap : pandora.GetGeometry()->GetDetectorGapList() )
     {
         const BoxGap *const pBoxGap = dynamic_cast<const BoxGap *>(pDetectorGap);
 
-        if ( (!pBoxGap) || (hitType != TPC_3D) )
+        if( (!pBoxGap) || (hitType != TPC_3D) )
             throw StatusCodeException(STATUS_CODE_INVALID_PARAMETER);
 
-        const float gapStartZ{ pBoxGap->GetVertex().GetZ() };
-        const float gapEndZ{ gapStartZ + pBoxGap->GetSide3().GetZ() };
+        float tMin{0.f}, tMax{1.f};
 
-        if( (gapStartZ > maxZ) || (gapEndZ < minZ)){
-            continue;
+        for( const CartesianVector &side : {pBoxGap->GetSide1(), pBoxGap->GetSide2(), pBoxGap->GetSide3()} )
+        {
+            const CartesianVector& axis{side.GetUnitVector()};
+            const float sideLength{side.GetMagnitude()};
+            const float p0{(startPoint - pBoxGap->GetVertex()).GetDotProduct(axis)};
+            const float d{ delta.GetDotProduct(axis) };
+
+            if (std::fabs(d) < std::numeric_limits<float>::epsilon())
+            {
+                // Unlikely to cross the current gap if the projection into
+                // a face of the gap is almost 0 and start position is before or
+                // after the gap vertex
+                if ((p0 < 0.f) || (p0 > sideLength))
+                {
+                    tMax = tMin;
+                    break;
+                }
+
+                continue;
+            }
+
+            // The portion of the distance between start and
+            // end point within the gap is: 0 <= p0 + t*d <= sideLength
+            // Solve for t.
+            float t1{-p0/d}, t2{(sideLength-p0)/d};
+
+            if( t1 > t2)
+                std::swap(t1, t2);
+
+            tMin = std::max(tMin, t1);
+            tMax = std::min(tMax, t2);
+
+            if( tMax <= tMin )
+                break;
         }
 
-        const float gapMinZ{ std::max(minZ, gapStartZ) };
-        const float gapMaxZ{ std::min(maxZ, gapEndZ) };
-
-        if ((gapMaxZ - gapMinZ) > std::numeric_limits<float>::epsilon())
-            gapDeltaZ += (gapMaxZ - gapMinZ);
+        if( tMax > tMin )
+            intervals.emplace_back(tMin, tMax);
     }
 
-    return gapDeltaZ;
+    std::sort(intervals.begin(), intervals.end());
+
+    float gapFraction{0.f}, currentStart{0.f}, currentEnd{0.f};
+
+    for( const auto [start, end] : intervals )
+    {
+        if(start > currentEnd)
+        {
+            gapFraction += (currentEnd - currentStart);
+            currentStart = start;
+            currentEnd = end;
+        }
+        else
+        {
+            currentEnd = std::max(currentEnd, end);
+        }
+    }
+
+    gapFraction += currentEnd - currentStart;
+
+    return gapFraction * length;
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
 bool LArNDCrossGapsExtensionAlgorithm::IsAcrossGap(const CartesianVector& pOuter, const CartesianVector& pInner, const HitType hitType) const
 {
+    const float length{ (pInner - pOuter).GetMagnitude() };
 
-    const float maxZ{ pInner.GetZ() };
-    const float minZ{ pOuter.GetZ() };
-
-    if (maxZ - minZ < std::numeric_limits<float>::epsilon())
+    if( length < std::numeric_limits<float>::epsilon() )
         return false;
 
-    const float gapDeltaZ{ CalculateGapDeltaZ(this->GetPandora(), minZ, maxZ, hitType) };
+    const float gapLength{ CalculateGapPathLength(this->GetPandora(), pOuter, pInner, hitType) };
 
-    if (gapDeltaZ / (maxZ - minZ) < m_minGapFraction)
+    if( (gapLength / length) < m_minGapFraction )
         return false;
 
     return true;

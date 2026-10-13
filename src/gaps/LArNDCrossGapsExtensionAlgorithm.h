@@ -66,9 +66,18 @@ private:
      *  @param maxZ the end position
      *  @param hitType the hitType
      */
-    bool IsAcrossGap(const pandora::CartesianVector& pOuter, const pandora::CartesianVector& pInner, const pandora::HitType hitType) const;
+    bool IsAcrossGap(const pandora::CartesianVector& startPoint, const pandora::CartesianVector& endPoint, const pandora::HitType hitType) const;
 
-    static float CalculateGapDeltaZ(const pandora::Pandora &pandora, const float minZ, const float maxZ, const pandora::HitType hitType);
+    /**
+     * @brief Calculate the length of the straight segment between two 3D positions that lies within a 3D gap
+     *
+     * @param pandora the pandora instance
+     * @param startPoint the start position
+     * @param endPoint the end position
+     * @param hitType the hitType
+     */
+    static float CalculateGapPathLength(const pandora::Pandora &pandora, const pandora::CartesianVector& startPoint,
+            const pandora::CartesianVector& endPoint, const pandora::HitType hitType);
 
     pandora::StatusCode ReadSettings(const pandora::TiXmlHandle xmlHandle);
 
